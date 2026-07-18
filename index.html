@@ -243,6 +243,25 @@
   /* The Listen chip beckons */
   .single-play{animation:nudge 2.8s ease-in-out infinite}
 
+  /* ---- Typewriter pass ---- */
+  @keyframes caret{ 0%,100%{opacity:1} 50%{opacity:0} }
+  .type-caret::after{
+    content:"";display:inline-block;width:2px;height:.95em;
+    background:var(--glow);margin-left:7px;vertical-align:-.12em;
+    animation:caret 1.05s steps(1) infinite;
+  }
+  .typed::after{animation:none;opacity:0;transition:opacity .8s 1.2s}
+  /* reserve the wrapped height so typing never shifts layout */
+  .hero .tagline{min-height:2.8em}
+  .listen h2{min-height:2.15em}
+
+  /* Statement arrives word by word */
+  .statement p .w{display:inline-block;opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+  .statement.reveal-in p .w{opacity:1;transform:none}
+
+  /* Wordmark letters cascade in */
+  .wordmark span{opacity:0;animation:fadeIn .5s both}
+
   /* Film grain */
   .grain{
     position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.045;
@@ -656,16 +675,75 @@
   }, { threshold: .3 });
   document.querySelectorAll('.track').forEach((t, i) => { t.dataset.i = i; io.observe(t); });
 
-  // Reveal sections on scroll
+  // Typewriter
+  function typewrite(elm, speed){
+    const full = elm.dataset.full ?? elm.textContent;
+    elm.textContent = '';
+    elm.classList.add('type-caret');
+    let i = 0;
+    const t = setInterval(() => {
+      elm.textContent = full.slice(0, ++i);
+      if (i >= full.length){ clearInterval(t); elm.classList.add('typed'); }
+    }, speed);
+  }
+  const tagline = document.querySelector('.hero .tagline');
+  if (motionOK && tagline){
+    tagline.dataset.full = tagline.textContent;
+    tagline.textContent = '';
+    setTimeout(() => typewrite(tagline, 34), 950);
+  }
+
+  // Reveal sections on scroll (the listen headline types itself in)
   const io2 = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting){
         e.target.classList.add('reveal-in');
+        if (motionOK && e.target.matches('.listen h2') && !e.target.dataset.typed){
+          e.target.dataset.typed = '1';
+          typewrite(e.target, 42);
+        }
         io2.unobserve(e.target);
       }
     });
   }, { threshold: .2 });
   document.querySelectorAll('[data-reveal]').forEach(el => io2.observe(el));
+
+  // Statement: split into words for a staggered ripple reveal
+  const stmt = document.querySelector('.statement p');
+  if (motionOK && stmt){
+    let wi = 0;
+    [...stmt.childNodes].forEach(node => {
+      if (node.nodeType === 3){
+        const frag = document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach(tok => {
+          if (!tok) return;
+          if (/^\s+$/.test(tok)){ frag.appendChild(document.createTextNode(tok)); return; }
+          const s = document.createElement('span');
+          s.className = 'w';
+          s.textContent = tok;
+          s.style.transitionDelay = (wi++ * 45) + 'ms';
+          frag.appendChild(s);
+        });
+        stmt.replaceChild(frag, node);
+      } else if (node.nodeType === 1){
+        node.classList.add('w');
+        node.style.transitionDelay = (wi++ * 45) + 'ms';
+      }
+    });
+  }
+
+  // Wordmark: letters cascade in
+  const wm = document.querySelector('.wordmark');
+  if (motionOK && wm){
+    const txt = wm.textContent;
+    wm.textContent = '';
+    [...txt].forEach((ch, i) => {
+      const s = document.createElement('span');
+      s.textContent = ch;
+      s.style.animationDelay = (120 + i * 55) + 'ms';
+      wm.appendChild(s);
+    });
+  }
 
   // 3D tilt on the countdown card (desktop pointers only)
   if (motionOK && matchMedia('(pointer:fine)').matches){
