@@ -8,6 +8,42 @@
 <meta property="og:title" content="Noctilucente — New EP" />
 <meta property="og:description" content="Out July 27. The light that stays after someone's gone." />
 <meta property="og:type" content="music.album" />
+<meta property="og:url" content="https://noctilucente.art/" />
+<meta property="og:site_name" content="Noctilucente" />
+<meta property="og:image" content="https://noctilucente.art/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Noctilucente — New EP" />
+<meta name="twitter:description" content="Out July 27. The light that stays after someone's gone." />
+<meta name="twitter:image" content="https://noctilucente.art/og.png" />
+<meta name="theme-color" content="#02030a" />
+<link rel="canonical" href="https://noctilucente.art/" />
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MusicAlbum",
+  "name": "Noctilucente EP",
+  "albumReleaseType": "EPRelease",
+  "datePublished": "2026-07-27",
+  "url": "https://noctilucente.art/",
+  "image": "https://noctilucente.art/og.png",
+  "byArtist": {
+    "@type": "MusicGroup",
+    "name": "Noctilucente",
+    "url": "https://open.spotify.com/artist/7pK5O3bB2BfPWIdh5ZgSxn",
+    "sameAs": ["https://www.instagram.com/lkelvn_/"]
+  },
+  "track": [
+    {"@type": "MusicRecording", "name": "Faded Us", "position": 1},
+    {"@type": "MusicRecording", "name": "Nobody Loved U Like I Did", "position": 2},
+    {"@type": "MusicRecording", "name": "Not You", "position": 3},
+    {"@type": "MusicRecording", "name": "Afterglow", "position": 4}
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
@@ -432,6 +468,10 @@
     text-transform:uppercase;color:var(--glow);white-space:nowrap;
   }
 
+  /* Embedded player */
+  .player{max-width:var(--maxw);margin:0 auto 30px;padding:12px;border-radius:24px}
+  .player iframe{display:block;border:0;border-radius:14px}
+
   .tracklist{max-width:var(--maxw);margin:0 auto;list-style:none;padding:clamp(14px,3vw,30px) clamp(16px,3vw,34px)}
   .track{
     display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:24px;
@@ -499,6 +539,25 @@
   .btn-ghost:hover{border-color:rgba(159,194,232,.7);transform:translateY(-2px)}
   .btn svg{width:15px;height:15px}
 
+  /* Notify form */
+  .notify{max-width:520px;margin:38px auto 0;padding:26px;border-radius:24px;text-align:left}
+  .notify-label{
+    display:block;font-family:"Space Mono",monospace;font-size:.66rem;
+    letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;
+  }
+  .notify-row{display:flex;gap:10px}
+  .notify input{
+    flex:1;min-width:0;background:rgba(255,255,255,.06);
+    border:1px solid var(--line);border-radius:100px;
+    padding:14px 20px;color:var(--paper);
+    font-family:"Inter",sans-serif;font-weight:300;font-size:.9rem;outline:none;
+    transition:border-color .3s;
+  }
+  .notify input:focus{border-color:var(--glow)}
+  .notify input::placeholder{color:var(--muted)}
+  .notify-btn{padding:14px 22px}
+  .notify-msg{margin-top:12px;font-size:.85rem;color:var(--glow);min-height:1.2em}
+
   /* Footer */
   footer{
     border-top:1px solid var(--line);padding:40px 28px;
@@ -517,6 +576,14 @@
     .single{grid-template-columns:auto 1fr;gap:16px}
     .single-play{grid-column:2;justify-self:start}
     header.nav .nav-cta{display:none}
+    .notify-row{flex-direction:column}
+  }
+
+  /* Lighten compositing load on phones */
+  @media (max-width:700px){
+    .halo{display:none}
+    .grain{animation:none}
+    .embers i:nth-child(n+13){display:none}
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -594,11 +661,19 @@
     </div>
 
     <!-- Latest single, already streaming -->
-    <a class="single glass" data-reveal href="https://open.spotify.com/track/7Ldk7LUOOK2jJkKqqLD8Q9?si=3aacae550b4841dc" target="_blank" rel="noopener">
+    <a class="single glass" data-reveal href="https://ditto.fm/where-we-ended" target="_blank" rel="noopener">
       <span class="single-badge">Out Now</span>
       <span class="track-title">Where We Ended<span class="track-feat">Latest single · 4:41</span></span>
       <span class="single-play">▶ Listen</span>
     </a>
+
+    <!-- Hear it right here -->
+    <div class="player glass" data-reveal>
+      <iframe title="Where We Ended on Spotify"
+        src="https://open.spotify.com/embed/track/7Ldk7LUOOK2jJkKqqLD8Q9?utm_source=generator&theme=0"
+        width="100%" height="152" frameborder="0" loading="lazy"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    </div>
 
     <ol class="tracklist glass">
       <li class="track">
@@ -635,18 +710,31 @@
       </a>
       <a class="btn btn-ghost" href="https://open.spotify.com/artist/7pK5O3bB2BfPWIdh5ZgSxn?si=wY4u_CtISnWfn4Z5iE0E2A" target="_blank" rel="noopener">Follow the artist</a>
     </div>
+
+    <form class="notify glass" id="notify" hidden>
+      <label class="notify-label" for="notify-email">Get notified on release day</label>
+      <div class="notify-row">
+        <input id="notify-email" name="email" type="email" required placeholder="you@email.com" autocomplete="email" />
+        <button type="submit" class="btn btn-primary notify-btn">Notify me</button>
+      </div>
+      <p class="notify-msg" aria-live="polite"></p>
+    </form>
   </section>
 
   <footer>
     <span>© 2026 Noctilucente</span>
     <div class="foot-links">
       <a href="https://open.spotify.com/artist/7pK5O3bB2BfPWIdh5ZgSxn?si=wY4u_CtISnWfn4Z5iE0E2A" target="_blank" rel="noopener">Spotify</a>
-      <a href="#">Instagram</a>
-      <a href="#">Apple Music</a>
+      <a href="https://www.instagram.com/lkelvn_/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://ditto.fm/where-we-ended" target="_blank" rel="noopener">All Platforms</a>
     </div>
   </footer>
 
 <script>
+  // Email capture: create a free form at formspree.io, then paste its
+  // endpoint here (e.g. 'https://formspree.io/f/abcdwxyz') to enable.
+  const NOTIFY_ENDPOINT = '';
+
   // Release: July 27, 2026, 00:00 local time
   const target = new Date(2026, 6, 27, 0, 0, 0).getTime();
   const el = { d: document.getElementById('d'), h: document.getElementById('h'),
@@ -750,6 +838,28 @@
       } else if (node.nodeType === 1){
         node.classList.add('w');
         node.style.transitionDelay = (wi++ * 45) + 'ms';
+      }
+    });
+  }
+
+  // Notify form: only appears once an endpoint is configured
+  const nf = document.getElementById('notify');
+  if (NOTIFY_ENDPOINT && nf){
+    nf.hidden = false;
+    nf.addEventListener('submit', async ev => {
+      ev.preventDefault();
+      const msg = nf.querySelector('.notify-msg');
+      const input = nf.querySelector('input');
+      try{
+        const r = await fetch(NOTIFY_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: input.value })
+        });
+        if (r.ok){ msg.textContent = "You're on the list. See you July 27."; input.value = ''; }
+        else { msg.textContent = 'Something went wrong — try again.'; }
+      } catch {
+        msg.textContent = 'Something went wrong — try again.';
       }
     });
   }

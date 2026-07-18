@@ -59,11 +59,17 @@ Pull request previews are enabled, so each PR gets its own preview URL.
 
 ## Before launch
 
-Spotify links are live (artist profile + latest single). Two placeholders still
-need real URLs — search `index.html` for `href="#"`:
+All links are live: Spotify artist profile, the Where We Ended smart link
+(ditto.fm, all platforms), Instagram, and an embedded Spotify player.
+Share previews are covered by `og.png`; favicons and JSON-LD are in place.
 
-- [ ] Footer — Instagram
-- [ ] Footer — Apple Music
+Remaining options:
+
+- [ ] Email capture — create a free form at [formspree.io](https://formspree.io),
+      then paste its endpoint into `NOTIFY_ENDPOINT` at the top of the script
+      in `index.html`. The signup form reveals itself automatically.
+- [ ] EP pre-save link — when the distributor issues one, swap it into the
+      primary CTA so the countdown converts into day-one saves.
 
 The countdown target lives at the bottom of `index.html`:
 
