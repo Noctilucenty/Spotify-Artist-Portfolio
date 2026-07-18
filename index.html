@@ -58,7 +58,7 @@
     --glow:#beb3e0;
     --glow-deep:#9184bd;
     --paper:#f4f1ec;
-    --muted:#9b958f;
+    --muted:#aaa49d;
     --line:rgba(190,179,224,.15);
     --fire:linear-gradient(118deg,#ffe0c2 0%,#ffb185 26%,#ff8552 52%,#ff9d68 76%,#ffd2a8 100%);
     --ice:linear-gradient(118deg,#f4efe8 0%,#e5ded4 38%,#cbc4ba 66%,#efe9e1 100%);
@@ -122,7 +122,7 @@
     letter-spacing:.3em;
     text-transform:uppercase;
     color:var(--glow);
-    opacity:.95;
+    opacity:1;
   }
 
   /* ---------- Twilight backdrop ---------- */
@@ -264,6 +264,26 @@
   .listen h2[data-reveal]{filter:blur(12px);transition:opacity 1.1s ease, transform 1.1s ease, filter 1.3s ease}
   .listen h2.reveal-in{filter:blur(0)}
 
+  /* The light tide: the page slowly breathes between moonlight blue
+     and afterglow orange. Two washes in opposite phase, screen-blended. */
+  .tide{
+    position:fixed;inset:0;z-index:-1;pointer-events:none;
+    mix-blend-mode:screen;will-change:opacity;
+  }
+  .tide-cool{
+    background:
+      radial-gradient(72% 58% at 28% 24%, rgba(110,150,215,.16), transparent 70%),
+      radial-gradient(50% 40% at 80% 10%, rgba(140,170,225,.08), transparent 70%);
+    animation:tideFade 36s ease-in-out infinite alternate;
+  }
+  .tide-warm{
+    background:
+      radial-gradient(72% 62% at 72% 82%, rgba(255,150,90,.17), transparent 70%),
+      radial-gradient(46% 36% at 18% 92%, rgba(255,178,120,.09), transparent 70%);
+    animation:tideFade 36s ease-in-out -18s infinite alternate;
+  }
+  @keyframes tideFade{ from{opacity:.12} to{opacity:.95} }
+
   /* Color temperature slowly warms as the story develops (JS-driven) */
   .temp{
     position:fixed;inset:0;z-index:-1;pointer-events:none;
@@ -288,7 +308,7 @@
   /* ---- Extended motion pass ---- */
   @keyframes haloSpin{ to{transform:translate(-50%,-58%) rotate(360deg)} }
   @keyframes wipe{ from{clip-path:inset(0 100% -20% 0)} to{clip-path:inset(0 -10% -20% 0)} }
-  @keyframes tracking{ from{letter-spacing:.5em;opacity:0} to{letter-spacing:.3em;opacity:.95} }
+  @keyframes tracking{ from{letter-spacing:.5em;opacity:0} to{letter-spacing:.3em;opacity:1} }
   @keyframes glowPulse{
     from{box-shadow:0 22px 60px rgba(5,8,14,.5), 0 0 44px rgba(178,198,222,.14), inset 0 1px 0 rgba(255,255,255,.24)}
     to{box-shadow:0 22px 60px rgba(5,8,14,.5), 0 0 110px rgba(178,198,222,.4), inset 0 1px 0 rgba(255,255,255,.24)}
@@ -420,7 +440,7 @@
     font-size:clamp(.54rem,1.3vw,.68rem);
     letter-spacing:.28em;text-transform:uppercase;
     padding-left:.28em;
-    color:var(--glow);opacity:.92;
+    color:var(--glow);opacity:1;
     animation:fadeIn 1.2s 1.05s both;
   }
   .hero .tagline{
@@ -489,7 +509,7 @@
     font-size:clamp(2rem,5.2vw,3.8rem);line-height:1.3;color:var(--paper);
     opacity:0;will-change:transform,opacity;
   }
-  .story-final{font-size:clamp(1.5rem,3.6vw,2.6rem);color:#d8d2ca;max-width:26ch}
+  .story-final{font-size:clamp(1.5rem,3.6vw,2.6rem);color:#eae5dd;max-width:26ch}
   .story-line em{
     font-style:italic;
     background:var(--fire);background-size:220% 100%;
@@ -620,9 +640,9 @@
     opacity:0;transform:translateY(10px);
     transition:opacity .7s ease, transform .7s ease;
   }
-  .track.in .track-idx{opacity:.8;transform:none;transition-delay:.05s}
+  .track.in .track-idx{opacity:.95;transform:none;transition-delay:.05s}
   .track.in .track-title{opacity:1;transform:none;transition-delay:.18s}
-  .track.in .track-mark{opacity:.85;transform:none;transition-delay:.34s}
+  .track.in .track-mark{opacity:1;transform:none;transition-delay:.34s}
   .track:hover{background:linear-gradient(90deg, rgba(190,179,224,.07), transparent)}
   .track-idx{font-family:"Geist Mono",monospace;font-size:.85rem;color:var(--glow);letter-spacing:.1em}
   .track-title{
@@ -647,7 +667,7 @@
   .track:hover .track-note{max-height:2em;opacity:.92;margin-top:6px}
   .track-mark{
     font-family:"Geist Mono",monospace;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;
-    color:var(--accent);white-space:nowrap;opacity:.85;
+    color:var(--accent);white-space:nowrap;
   }
 
   /* CTA */
@@ -779,6 +799,7 @@
     .cd-num.tick{animation:none}
     .halo,.grain,.single-play,.single-badge{animation:none}
     .meteor{display:none}
+    .tide{animation:none;opacity:.4}
     .noctilucent.n2,.countdown::after{animation:none}
     .clouds,.cover-wrap img,.story-line em{animation:none}
     .track-note{transition:none}
@@ -803,6 +824,8 @@
   <div class="stars"></div>
   <div class="clouds" aria-hidden="true"></div>
   <div class="temp" aria-hidden="true"></div>
+  <div class="tide tide-cool" aria-hidden="true"></div>
+  <div class="tide tide-warm" aria-hidden="true"></div>
   <div class="noctilucent"></div>
   <div class="noctilucent n2" aria-hidden="true"></div>
   <div class="meteor" aria-hidden="true"></div>
@@ -1147,7 +1170,7 @@
         ' translateY(' + (hp * -8) + 'px) scale(' + (.965 + hp * .07) + ')';
       glowEl.style.opacity = (hp * .95).toFixed(3);
       lockup.style.transform = 'translateY(' + (hp * -12) + 'px)';
-      tagEl.style.opacity = (1 - hp * .35).toFixed(3);
+      tagEl.style.opacity = (1 - hp * .12).toFixed(3);
       if (hp > .5) wrap.classList.add('lit');     // one light sweep across the cover
 
       // story: lines dissolve through each other while the scene holds
@@ -1157,8 +1180,8 @@
       const seg = 1 / lines.length;
       lines.forEach((el, i) => {
         const center = (i + .5) * seg;
-        const d = Math.abs(sp - center) / (seg * .72);
-        el.style.opacity = clamp(1 - d, 0, 1).toFixed(3);
+        const d = Math.abs(sp - center) / (seg * .8);
+        el.style.opacity = clamp(1.25 - d, 0, 1).toFixed(3);
         el.style.transform = 'translateY(' + ((sp - center) * -70) + 'px)';
       });
 
