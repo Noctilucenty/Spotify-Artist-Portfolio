@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: noctilucente
+    runtime: static
+    # Nothing to compile — index.html is self-contained.
+    buildCommand: "echo 'Static site: no build step required.'"
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: true
+
+    headers:
+      # Long-lived caching for static assets, but always revalidate the HTML
+      # so a new release date / tracklist goes live immediately on deploy.
+      - path: /index.html
+        name: Cache-Control
+        value: "public, max-age=0, must-revalidate"
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+
+    routes:
+      # Single-page site: send everything to index.html rather than a 404.
+      - type: rewrite
+        source: /*
+        destination: /index.html
