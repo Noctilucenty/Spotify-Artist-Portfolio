@@ -186,6 +186,63 @@
 
   .cd-num.tick{animation:pulse .5s ease}
 
+  /* ---- Extended motion pass ---- */
+  @keyframes haloSpin{ to{transform:translate(-50%,-58%) rotate(360deg)} }
+  @keyframes wipe{ from{clip-path:inset(0 100% -20% 0)} to{clip-path:inset(0 -10% -20% 0)} }
+  @keyframes tracking{ from{letter-spacing:.68em;opacity:0} to{letter-spacing:.42em;opacity:.85} }
+  @keyframes glowPulse{
+    from{box-shadow:0 22px 60px rgba(5,8,14,.5), 0 0 36px rgba(255,45,85,.07), inset 0 1px 0 rgba(255,255,255,.24)}
+    to{box-shadow:0 22px 60px rgba(5,8,14,.5), 0 0 96px rgba(255,45,85,.24), inset 0 1px 0 rgba(255,255,255,.24)}
+  }
+  @keyframes ticker{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  @keyframes grainShift{
+    0%{background-position:0 0} 33%{background-position:42px -26px}
+    66%{background-position:-28px 34px} 100%{background-position:0 0}
+  }
+  @keyframes nudge{ 0%,100%{transform:translateX(0)} 50%{transform:translateX(6px)} }
+
+  /* Slow-turning aurora halo behind the headline */
+  .halo{
+    position:absolute;top:50%;left:50%;width:min(72vw,920px);aspect-ratio:1;
+    transform:translate(-50%,-58%);z-index:-1;pointer-events:none;border-radius:50%;
+    background:conic-gradient(from 0deg,
+      rgba(255,45,85,.16), rgba(255,171,58,.05), rgba(255,94,142,.15),
+      rgba(255,83,38,.05), rgba(255,176,214,.10), rgba(255,45,85,.16));
+    filter:blur(64px);
+    animation:haloSpin 28s linear infinite;
+  }
+
+  /* Marquee ticker */
+  .ticker{
+    overflow:hidden;white-space:nowrap;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:22px 0;margin-bottom:clamp(60px,10vh,120px);
+  }
+  .ticker-inner{display:inline-block;animation:ticker 30s linear infinite}
+  .ticker:hover .ticker-inner{animation-play-state:paused}
+  .ticker b{
+    font-family:"Bodoni Moda",serif;font-weight:400;font-style:italic;
+    font-size:clamp(1.5rem,3.2vw,2.4rem);
+    background:var(--fire);background-size:220% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:fireShift 9s ease-in-out infinite alternate;
+    margin:0 18px;
+  }
+  .ticker i{font-style:normal;color:var(--glow-deep);font-size:1.1rem;vertical-align:middle}
+
+  /* Second, higher shooting star */
+  .shooting.s2{top:30%;left:-12%;width:90px;animation-delay:12s;animation-duration:19s}
+
+  /* Film-grain flicker */
+  .grain{animation:grainShift 1.1s steps(3) infinite}
+
+  /* Track rows lean into hover */
+  .track.in:hover{transform:translateX(8px)}
+  .track{transition:opacity .9s ease, transform .5s ease, background .4s}
+
+  /* The Listen chip beckons */
+  .single-play{animation:nudge 2.8s ease-in-out infinite}
+
   /* Film grain */
   .grain{
     position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.045;
@@ -225,7 +282,7 @@
     display:flex;flex-direction:column;justify-content:center;align-items:center;
     text-align:center;position:relative;padding:120px 28px 80px;
   }
-  .hero .eyebrow{margin-bottom:30px;animation:riseIn .9s .1s both}
+  .hero .eyebrow{margin-bottom:30px;animation:tracking 1.3s .1s both}
   .hero h1{
     font-family:"Bodoni Moda",serif;
     font-weight:400;
@@ -238,7 +295,7 @@
     background-size:220% 100%;
     -webkit-background-clip:text;background-clip:text;color:transparent;
     filter:drop-shadow(0 0 60px rgba(255,60,90,.32));
-    animation:riseIn 1.1s .25s both, fireShift 9s 1.6s ease-in-out infinite alternate;
+    animation:riseIn 1.1s .25s both, wipe 1.5s .35s both, fireShift 9s 1.9s ease-in-out infinite alternate;
   }
   .hero .tagline{
     font-family:"Bodoni Moda",serif;font-style:italic;font-weight:400;
@@ -252,7 +309,8 @@
     margin-top:56px;display:flex;gap:clamp(16px,4vw,46px);
     align-items:flex-start;justify-content:center;
     padding:30px clamp(26px,5vw,54px);
-    animation:riseIn 1s .75s both;
+    animation:riseIn 1s .75s both, glowPulse 6s 2.2s ease-in-out infinite alternate;
+    will-change:transform;
   }
   .cd-unit{display:flex;flex-direction:column;align-items:center;min-width:56px}
   .cd-num{
@@ -432,6 +490,7 @@
     [data-reveal]{transition:none;opacity:1;transform:none}
     .glass::after,.btn-primary::after{transition:none}
     .cd-num.tick{animation:none}
+    .halo,.grain,.ticker-inner,.ticker b,.single-play,.single-badge{animation:none}
   }
 </style>
 </head>
@@ -441,6 +500,7 @@
   <div class="noctilucent"></div>
   <div class="embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="shooting" aria-hidden="true"></div>
+  <div class="shooting s2" aria-hidden="true"></div>
   <div class="grain"></div>
 
   <header class="nav wrap">
@@ -450,6 +510,7 @@
 
   <!-- HERO -->
   <main class="hero">
+    <div class="halo" aria-hidden="true"></div>
     <p class="eyebrow">New EP · 2026</p>
     <h1>Noctilucente</h1>
     <p class="tagline">Four songs about the light that stays after someone's gone.</p>
@@ -475,6 +536,14 @@
       <p>Noctilucent clouds only appear after the sun is gone — lit from below the horizon, glowing at the edge of the dark. This EP lives there: in the <em>afterglow</em> of a love already faded, in the light that refuses to leave.</p>
     </div>
   </section>
+
+  <!-- TICKER -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-inner">
+      <b>Noctilucente</b><i>✦</i><b>July 27</b><i>✦</i><b>Faded Us</b><i>✦</i><b>Nobody Loved U Like I Did</b><i>✦</i><b>Not You</b><i>✦</i><b>Afterglow</b><i>✦</i><b>Where We Ended — Out Now</b><i>✦</i>
+      <b>Noctilucente</b><i>✦</i><b>July 27</b><i>✦</i><b>Faded Us</b><i>✦</i><b>Nobody Loved U Like I Did</b><i>✦</i><b>Not You</b><i>✦</i><b>Afterglow</b><i>✦</i><b>Where We Ended — Out Now</b><i>✦</i>
+    </div>
+  </div>
 
   <!-- TRACKLIST -->
   <section class="record">
@@ -579,6 +648,8 @@
       if (e.isIntersecting){
         e.target.style.transitionDelay = (e.target.dataset.i * 90) + 'ms';
         e.target.classList.add('in');
+        // drop the stagger delay once revealed so hover reacts instantly
+        setTimeout(() => { e.target.style.transitionDelay = ''; }, 1400);
         io.unobserve(e.target);
       }
     });
@@ -595,6 +666,23 @@
     });
   }, { threshold: .2 });
   document.querySelectorAll('[data-reveal]').forEach(el => io2.observe(el));
+
+  // 3D tilt on the countdown card (desktop pointers only)
+  if (motionOK && matchMedia('(pointer:fine)').matches){
+    // once the entrance finishes, hand transform control to the mouse
+    cd.addEventListener('animationend', ev => {
+      if (ev.animationName === 'riseIn'){
+        cd.style.animation = 'glowPulse 6s ease-in-out infinite alternate';
+      }
+    });
+    cd.addEventListener('mousemove', e => {
+      const r = cd.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5;
+      const y = (e.clientY - r.top) / r.height - .5;
+      cd.style.transform = 'perspective(700px) rotateX(' + (-y * 6).toFixed(2) + 'deg) rotateY(' + (x * 8).toFixed(2) + 'deg)';
+    });
+    cd.addEventListener('mouseleave', () => { cd.style.transform = ''; });
+  }
 
   // Gentle star parallax
   if (motionOK){
