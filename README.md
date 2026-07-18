@@ -15,6 +15,9 @@ a near-black sky, a smouldering ember horizon, and a slow-drifting glow band.
 | 03 | Not You | feat. Elina |
 | 04 | Afterglow | with James TW & Elina |
 
+**Out now:** [Where We Ended](https://open.spotify.com/track/7Ldk7LUOOK2jJkKqqLD8Q9)
+— the latest single, featured on the page above the EP tracklist.
+
 ## Stack
 
 No build step, no dependencies. `index.html` is a single self-contained file:
@@ -54,10 +57,11 @@ Pull request previews are enabled, so each PR gets its own preview URL.
 
 ## Before launch
 
-Two placeholders still need real URLs — search `index.html` for `href="#"`:
+Spotify links are live (artist profile + latest single). Two placeholders still
+need real URLs — search `index.html` for `href="#"`:
 
-- [ ] Spotify pre-save / artist link (hero CTA + nav "Pre-save" button)
-- [ ] Footer links — Spotify, Instagram, Apple Music
+- [ ] Footer — Instagram
+- [ ] Footer — Apple Music
 
 The countdown target lives at the bottom of `index.html`:
 
