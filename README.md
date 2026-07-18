@@ -30,8 +30,10 @@ Fonts; everything else is pure CSS.
 - **Data / liner notes** — Space Mono
 - **Surfaces** — Apple-style liquid glass (`backdrop-filter` blur + saturation,
   hairline borders, specular top edge)
-- **Accent** — red → pink → fire gradient, applied to display type via
-  `background-clip: text`
+- **Palette** — "cold sky, warm afterglow": the identity is noctilucent
+  silver-blue (sky, glow band, ice-gradient display type, star motes), with a
+  faint ember horizon. Fire survives only where the music speaks: the word
+  AFTERGLOW, the Out Now badge, the primary CTA, and the release-day banner.
 
 ## Running locally
 
