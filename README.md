@@ -25,9 +25,9 @@ markup, styles, and the countdown script all live in it. Fonts load from Google
 Fonts; everything else is pure CSS.
 
 - **Display type** — Bodoni Moda (high-contrast Didone; the thick-to-hairline
-  stroke reads as luminous)
-- **Body** — Inter
-- **Data / liner notes** — Space Mono
+  stroke reads as luminous), display sizes only
+- **Body / UI** — Geist 400
+- **Labels / liner notes** — Geist Mono 500
 - **Surfaces** — Apple-style liquid glass (`backdrop-filter` blur + saturation,
   hairline borders, specular top edge)
 - **Palette** — "cold sky, warm afterglow": the identity is noctilucent
