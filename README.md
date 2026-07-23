@@ -1,6 +1,6 @@
 # Noctilucente — Artist Site
 
-Landing page for the Noctilucente EP, out **July 23**.
+Landing page for the Noctilucente EP, out **July 27**.
 
 Noctilucent clouds only appear after the sun is gone — lit from below the
 horizon, glowing at the edge of the dark. The site is built around that idea:
