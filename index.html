@@ -181,18 +181,26 @@
     background:
       repeating-linear-gradient(102deg,
         rgba(190,179,224,0) 0px,
-        rgba(212,206,228,.09) 70px,
-        rgba(178,198,222,.02) 165px,
-        rgba(228,224,238,.10) 260px,
-        rgba(190,179,224,0) 370px),
+        rgba(212,206,228,.13) 40px,
+        rgba(178,198,222,.04) 95px,
+        rgba(228,224,238,.14) 150px,
+        rgba(190,179,224,0) 215px),
       radial-gradient(58% 62% at 50% 104%, rgba(255,150,170,.22) 0%, transparent 62%),
       radial-gradient(62% 100% at 50% 100%, rgba(186,206,230,.32) 0%, rgba(145,132,189,.13) 45%, transparent 72%);
-    /* Softness comes from a wide repeat period rather than a heavy blur, so
-       the band reads as cloud without a costly filter on a layer this size. */
-    filter:blur(18px);
-    opacity:.5;
-    mask-image:linear-gradient(180deg, transparent 0%, #000 46%, #000 78%, transparent 100%);
-    -webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 46%, #000 78%, transparent 100%);
+    /* A heavy blur over a tight repeat: the striations stay visible as
+       structure inside the cloud instead of being flattened away. */
+    filter:blur(48px);
+    opacity:.55;
+    /* fade top, bottom AND sides, so the band sits on the horizon rather
+       than running wall-to-wall across the viewport */
+    mask-image:
+      linear-gradient(180deg, transparent 0%, #000 46%, #000 78%, transparent 100%),
+      linear-gradient(90deg, transparent 0%, #000 26%, #000 74%, transparent 100%);
+    -webkit-mask-image:
+      linear-gradient(180deg, transparent 0%, #000 46%, #000 78%, transparent 100%),
+      linear-gradient(90deg, transparent 0%, #000 26%, #000 74%, transparent 100%);
+    mask-composite:intersect;
+    -webkit-mask-composite:source-in;
     animation:drift 42s ease-in-out infinite alternate, breathe 11s ease-in-out infinite;
     transform-origin:center;
   }
@@ -200,7 +208,7 @@
   @keyframes breathe{ 0%,100%{opacity:.6} 50%{opacity:.95} }
   /* a second, higher band drifting the other way */
   .noctilucent.n2{
-    bottom:56%;height:20vh;filter:blur(26px);
+    bottom:56%;height:20vh;filter:blur(60px);
     animation:drift2 58s ease-in-out infinite alternate, breathe2 15s ease-in-out infinite;
   }
   @keyframes drift2{ from{transform:translateX(4%) skewX(1deg)} to{transform:translateX(-4%) skewX(-1deg)} }
@@ -821,7 +829,7 @@
   .split .ch{
     display:inline-block;white-space:pre;
     opacity:0;transform:translateY(.5em) rotateX(-55deg);
-    filter:blur(7px);transform-origin:50% 100%;
+    filter:blur(11px);transform-origin:50% 100%;
     transition:opacity .8s cubic-bezier(.2,.7,.25,1),
                transform .9s cubic-bezier(.2,.7,.25,1),
                filter .8s ease;
@@ -835,7 +843,7 @@
   }
 
   /* --- Statement words arrive out of blur --- */
-  .statement p .w{filter:blur(8px);transition:opacity .7s ease,transform .7s ease,filter .8s ease}
+  .statement p .w{filter:blur(13px);transition:opacity .7s ease,transform .7s ease,filter .9s ease}
   .statement.reveal-in p .w{filter:blur(0)}
 
   /* --- Velocity reaction: a haze that rises with scroll speed.
@@ -904,7 +912,7 @@
   /* track titles reveal character by character as the row arrives */
   .track .track-title .ch{
     display:inline-block;white-space:pre;
-    opacity:0;transform:translateY(.42em);filter:blur(6px);
+    opacity:0;transform:translateY(.42em);filter:blur(9px);
     transition:opacity .6s ease, transform .7s cubic-bezier(.2,.7,.25,1), filter .6s ease;
   }
   .track.in .track-title .ch{opacity:1;transform:none;filter:blur(0)}
@@ -1467,10 +1475,12 @@
       lastY = sy;
       const v = clamp(Math.abs(vel) / 55, 0, 1);
 
-      // layered depth — distant things barely move. Translation only:
-      // scaling a full-viewport gradient layer re-rasterises it each frame.
-      stars.style.transform  = 'translate(' + mx + 'px,' + (sy * .05 * F + my) + 'px)';
-      clouds.style.transform = 'translateY(' + (sy * .025 * F) + 'px)';
+      // layered depth — distant things barely move, and the whole field
+      // stretches with speed so fast scrolling smears the sky into streaks
+      stars.style.transform  =
+        'translate(' + mx + 'px,' + (sy * .05 * F + my) + 'px) scaleY(' + (1 + v * 2.2).toFixed(2) + ')';
+      clouds.style.transform =
+        'translateY(' + (sy * .025 * F) + 'px) scaleY(' + (1 + v * .2).toFixed(3) + ')';
 
       // speed reads as a rising haze — opacity only, so it stays composited
       warp.style.opacity = (v * .55).toFixed(3);
@@ -1501,7 +1511,7 @@
           const lead = wi / n;
           const p = clamp(near * 1.45 - lead * .42, 0, 1);
           w.style.opacity = p.toFixed(3);
-          w.style.filter = 'blur(' + ((1 - p) * 12).toFixed(2) + 'px)';
+          w.style.filter = 'blur(' + ((1 - p) * 17).toFixed(2) + 'px)';
           w.style.transform =
             'translateY(' + ((1 - p) * 30).toFixed(1) + 'px) scale(' + (.94 + p * .06).toFixed(3) + ')';
         });
