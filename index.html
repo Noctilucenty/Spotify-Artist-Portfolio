@@ -142,26 +142,40 @@
       /* the sun, just below the horizon — a narrow bronze core hugging the
          very bottom, so the warmth never floods the readable area */
       radial-gradient(80% 7% at 50% 100.5%,
-        rgba(255,178,104,.34) 0%, rgba(222,116,56,.16) 34%, transparent 66%),
+        rgba(255,178,104,.32) 0%, rgba(222,116,56,.15) 34%, transparent 66%),
       /* pink-orange shoulder rising off the bronze */
-      radial-gradient(110% 8% at 50% 97%,
-        rgba(255,132,92,.20) 0%, rgba(224,100,92,.09) 44%, transparent 74%),
-      /* the rose belt, a little higher again */
-      radial-gradient(140% 9% at 50% 92%,
-        rgba(250,116,152,.16) 0%, rgba(176,80,120,.07) 50%, transparent 80%),
+      radial-gradient(110% 8% at 50% 94%,
+        rgba(255,132,92,.19) 0%, rgba(224,100,92,.09) 44%, transparent 74%),
+      /* the rose belt */
+      radial-gradient(140% 9% at 50% 86%,
+        rgba(250,116,152,.17) 0%, rgba(176,80,120,.07) 50%, transparent 80%),
+      /* blooms spread along the climb, so something is always arriving
+         rather than everything happening at the horizon */
+      radial-gradient(120% 9% at 38% 72%, rgba(206,96,150,.13) 0%, transparent 76%),
+      radial-gradient(110% 9% at 64% 56%, rgba(150,100,196,.13) 0%, transparent 76%),
+      radial-gradient(105% 9% at 36% 40%, rgba(112,104,200,.12) 0%, transparent 76%),
+      radial-gradient(95% 9% at 66% 24%, rgba(84,102,180,.11) 0%, transparent 76%),
       /* cold counter-glow near the top of the climb */
-      radial-gradient(70% 12% at 74% 6%, rgba(150,124,206,.14) 0%, transparent 60%),
+      radial-gradient(70% 10% at 74% 8%, rgba(120,132,206,.13) 0%, transparent 62%),
+      /* An even march of hue from midnight blue to bronze. Luminance climbs
+         only gently, so the colour keeps moving the whole way down without
+         ever getting bright enough to cost the type its contrast. */
+      /* The viewport centre only ever traverses ~18%-82% of this ramp, so the
+         journey is packed into that band — otherwise the end colours never
+         really arrive and the sky looks static for most of the scroll. */
       linear-gradient(180deg,
-        #05040a 0%,    /* zenith — full night, and it stays night a long time */
-        #07060d 22%,
-        #0b0913 40%,
-        #120d1a 55%,
-        #1b1020 66%,
-        #251324 75%,
-        #33162a 82%,
-        #431a27 88%,
-        #55211f 94%,
-        #63291b 100%); /* horizon — deep ember, not daylight */
+        #070a16 0%,    /* midnight blue */
+        #0a0a1c 16%,
+        #100b21 26%,
+        #180c25 36%,
+        #210e27 46%,
+        #2b1028 56%,
+        #371229 64%,
+        #431427 72%,
+        #501722 80%,
+        #5d1d1f 87%,
+        #68251c 93%,
+        #6d2c1a 100%); /* horizon — bronze */
   }
   .stars{
     position:fixed;inset:0;z-index:-2;
@@ -789,17 +803,17 @@
   }
   .foot-tag{
     font-family:"Bodoni Moda",serif;font-style:italic;font-weight:400;
-    font-size:1.05rem;color:var(--muted);
+    font-size:1.05rem;color:rgba(246,240,234,.8);
   }
   .foot-links{
     display:flex;gap:28px;margin-top:8px;
     font-family:"Geist Mono",monospace;font-size:.68rem;letter-spacing:.2em;
-    text-transform:uppercase;color:var(--muted);
+    text-transform:uppercase;color:rgba(246,240,234,.82);
   }
   footer a:hover{color:var(--glow)}
   .foot-copy{
     font-family:"Geist Mono",monospace;font-size:.62rem;letter-spacing:.2em;
-    color:var(--muted);opacity:.6;margin-top:6px;
+    color:rgba(246,240,234,.72);margin-top:6px;
   }
 
   /* ============================================================
