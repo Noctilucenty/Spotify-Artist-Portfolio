@@ -12,7 +12,7 @@ a near-black sky, a smouldering ember horizon, and a slow-drifting glow band.
 |---|-------|---------|
 | 01 | Faded Us | feat. Elina |
 | 02 | Nobody Loved U Like I Did | feat. Elina |
-| 03 | if i had wings | feat. Elina |
+| 03 | if i became a bird | feat. Elina |
 | 04 | Afterglow | with James TW & Elina |
 
 **Out now:** [Where We Ended](https://open.spotify.com/track/7Ldk7LUOOK2jJkKqqLD8Q9)
