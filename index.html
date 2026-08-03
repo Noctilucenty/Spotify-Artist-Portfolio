@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Noctilucente — Afterglow · The Debut EP, Out July 27</title>
-<meta name="description" content="Noctilucente's new EP arrives July 27. Four songs about the light that stays after someone's gone. Featuring Elina and James TW." />
-<meta property="og:title" content="Noctilucente — New EP" />
-<meta property="og:description" content="Out July 27. The light that stays after someone's gone." />
+<title>Noctilucente — Afterglow · The Debut EP, Out Now</title>
+<meta name="description" content="Noctilucente's debut EP is out now. Songs about the light that stays after someone's gone. Featuring Elina and James TW. Listen on Spotify." />
+<meta property="og:title" content="Noctilucente — Afterglow" />
+<meta property="og:description" content="Out now. The light that stays after someone's gone." />
 <meta property="og:type" content="music.album" />
 <meta property="og:url" content="https://noctilucente.art/" />
 <meta property="og:site_name" content="Noctilucente" />
@@ -14,8 +14,8 @@
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Noctilucente — New EP" />
-<meta name="twitter:description" content="Out July 27. The light that stays after someone's gone." />
+<meta name="twitter:title" content="Noctilucente — Afterglow" />
+<meta name="twitter:description" content="Out now. The light that stays after someone's gone." />
 <meta name="twitter:image" content="https://noctilucente.art/og.png" />
 <meta name="theme-color" content="#09080b" />
 <link rel="canonical" href="https://noctilucente.art/" />
@@ -37,9 +37,12 @@
     "sameAs": ["https://www.instagram.com/lkelvn_/"]
   },
   "track": [
-    {"@type": "MusicRecording", "name": "Faded Us", "position": 1},
-    {"@type": "MusicRecording", "name": "Nobody Loved U Like I Did", "position": 2},
-    {"@type": "MusicRecording", "name": "if i became a bird", "position": 3},
+    {"@type": "MusicRecording", "name": "Faded Us", "position": 1,
+     "url": "https://open.spotify.com/track/2WRbcYvi6TD98CgKS46Qsm", "duration": "PT3M34S"},
+    {"@type": "MusicRecording", "name": "Nobody Loved U Like I Did", "position": 2,
+     "url": "https://open.spotify.com/track/0cVC50jMfvl6TOgbd05EHD", "duration": "PT3M56S"},
+    {"@type": "MusicRecording", "name": "if i became a bird", "position": 3,
+     "url": "https://open.spotify.com/track/092RXsKUXJcMnNYwiDXiNN", "duration": "PT4M20S"},
     {"@type": "MusicRecording", "name": "Afterglow", "position": 4}
   ]
 }
@@ -610,6 +613,14 @@
     margin-top:44px;
   }
 
+  /* Released state — what the countdown became once the music landed */
+  .out-now{
+    margin-top:52px;display:flex;flex-direction:column;align-items:center;gap:26px;
+    animation:riseIn 1s .75s both;
+  }
+  .out-now .released-badge{margin-top:0}
+  .out-now .btn{animation:fadeIn 1.2s 1.5s both}
+
   .scroll-cue{
     position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
     font-family:"Geist Mono",monospace;font-size:.62rem;letter-spacing:.3em;
@@ -685,7 +696,7 @@
     content:"";position:absolute;left:12px;bottom:0;height:1px;width:0;
     background:var(--line);transition:width 1.2s ease .25s;
   }
-  .track:last-child::before{display:none}
+  .tracklist li:last-child .track::before{display:none}
   .track.in{opacity:1;transform:none}
   .track.in::before{width:calc(100% - 24px)}
   /* number arrives first, then the title, then the date */
@@ -724,6 +735,49 @@
   .track-mark{
     font-family:"Geist Mono",monospace;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;
     color:var(--accent);white-space:nowrap;
+  }
+
+  /* A released row is a play control; an unreleased one stays inert type */
+  a.track{cursor:pointer}
+  .track-play{display:inline-flex;align-items:center;gap:11px;transition:color .35s ease}
+  .play-dot{
+    display:inline-flex;align-items:center;justify-content:center;flex:none;
+    width:27px;height:27px;border-radius:50%;
+    border:1px solid rgba(255,177,133,.45);
+    background:linear-gradient(155deg, rgba(255,163,110,.2), rgba(255,138,82,.06));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
+    font-size:.52rem;line-height:1;padding-left:2px; /* optical centre for the triangle */
+    transition:border-color .35s ease, box-shadow .35s ease, transform .35s ease;
+  }
+  .track:hover .track-play{color:#fff}
+  .track:hover .play-dot{
+    border-color:rgba(255,177,133,.9);
+    box-shadow:0 0 22px rgba(255,138,82,.42), inset 0 1px 0 rgba(255,255,255,.3);
+    transform:scale(1.06);
+  }
+  /* while its player is open the row holds the lit state */
+  .track.playing .play-dot{
+    padding-left:0;
+    border-color:rgba(255,177,133,.9);
+    box-shadow:0 0 22px rgba(255,138,82,.42), inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .track.playing .track-play{color:#fff}
+  .track-soon .track-mark{color:var(--muted);opacity:.75}
+
+  /* Inline preview — grows out of the row it belongs to */
+  .track-player{
+    display:grid;grid-template-rows:0fr;
+    transition:grid-template-rows .55s cubic-bezier(.2,.7,.25,1), opacity .45s ease;
+    opacity:0;
+  }
+  .track-player.open{grid-template-rows:1fr;opacity:1}
+  .track-player > div{overflow:hidden;min-height:0}
+  .track-player iframe{
+    display:block;border:0;border-radius:14px;
+    margin:0 12px 22px;width:calc(100% - 24px);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .track-player{transition:none}
   }
 
   /* CTA */
@@ -840,6 +894,9 @@
 
   /* --- Split text: per-character reveal for display headings --- */
   .split{display:inline-block}
+  /* characters are inline-block, so without this a line break can fall
+     inside a word — "Nobody Loved U Lik / e I Did" */
+  .split .wd{white-space:nowrap}
   .split .ch{
     display:inline-block;white-space:pre;
     opacity:0;transform:translateY(.5em) rotateX(-55deg);
@@ -967,6 +1024,7 @@
     .stars{animation:none}
     .lockup-artist,.lockup-rule,.lockup-sub,
     .hero .eyebrow,.hero h1,.hero .tagline,.countdown,.scroll-cue,
+    .out-now,.out-now .btn,
     .record-head h2,.listen h2,.statement p em{animation:none}
     [data-reveal]{transition:none;opacity:1;transform:none}
     .glass::after,.btn-primary::after{transition:none}
@@ -1041,20 +1099,20 @@
         <span class="lockup-artist">Noctilucente</span>
         <h1>Afterglow</h1>
         <span class="lockup-rule" aria-hidden="true"><i></i>✦<i></i></span>
-        <span class="lockup-sub">The Debut EP · Out July 27</span>
+        <span class="lockup-sub">The Debut EP · Out Now</span>
       </div>
     </div>
 
     <p class="tagline">Some light never disappears.</p>
 
-    <div class="countdown glass" id="countdown" aria-label="Time until release">
-      <div class="cd-unit"><span class="cd-num" id="d">00</span><span class="cd-label">Days</span></div>
-      <div class="cd-sep">·</div>
-      <div class="cd-unit"><span class="cd-num" id="h">00</span><span class="cd-label">Hours</span></div>
-      <div class="cd-sep">·</div>
-      <div class="cd-unit"><span class="cd-num" id="m">00</span><span class="cd-label">Mins</span></div>
-      <div class="cd-sep">·</div>
-      <div class="cd-unit"><span class="cd-num" id="s">00</span><span class="cd-label">Secs</span></div>
+    <!-- The countdown ran out on July 27. What stands here now is the release
+         itself, written into the markup so it needs no script to appear. -->
+    <div class="out-now">
+      <p class="released-badge">Out now — go listen.</p>
+      <a class="btn btn-primary" href="https://open.spotify.com/artist/7pK5O3bB2BfPWIdh5ZgSxn?si=wY4u_CtISnWfn4Z5iE0E2A" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.5 17.32a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.33-1.46c4.57-1.04 8.5-.59 11.66 1.34.35.22.46.68.25 1.03zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.37-1.32 9.79-.68 13.5 1.6.44.27.58.85.3 1.29zm.13-3.4C15.8 8.3 8.9 8.08 5.1 9.24a1.12 1.12 0 1 1-.65-2.15c4.36-1.32 11.98-1.07 16.28 1.48a1.12 1.12 0 1 1-1.15 1.92z"/></svg>
+        Play on Spotify
+      </a>
     </div>
 
     <div class="scroll-cue" aria-hidden="true">Scroll<span></span></div>
@@ -1082,8 +1140,8 @@
   <!-- RIBBON — a slow band of type carrying the release between chapters -->
   <section class="ribbon" aria-hidden="true">
     <div class="ribbon-track">
-      <span>Afterglow<i>✦</i>Out July 27<i>✦</i>Noctilucente<i>✦</i>The light that remains<i>✦</i></span>
-      <span>Afterglow<i>✦</i>Out July 27<i>✦</i>Noctilucente<i>✦</i>The light that remains<i>✦</i></span>
+      <span>Afterglow<i>✦</i>Out now<i>✦</i>Noctilucente<i>✦</i>The light that remains<i>✦</i></span>
+      <span>Afterglow<i>✦</i>Out now<i>✦</i>Noctilucente<i>✦</i>The light that remains<i>✦</i></span>
     </div>
   </section>
 
@@ -1094,10 +1152,10 @@
       <span class="meta">4 Tracks · Feat. Elina & James TW</span>
     </div>
 
-    <!-- Latest single, already streaming -->
+    <!-- The single that opened the record, still streaming -->
     <a class="single glass" data-reveal href="https://ditto.fm/where-we-ended" target="_blank" rel="noopener">
       <span class="single-badge">Out Now</span>
-      <span class="track-title">Where We Ended<span class="track-feat">Latest single · 4:41</span></span>
+      <span class="track-title">Where We Ended<span class="track-feat">The first single · 4:41</span></span>
       <span class="single-play">▶ Listen</span>
     </a>
 
@@ -1109,36 +1167,52 @@
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
     </div>
 
+    <!-- Released rows open a player in place; without JS they fall through to
+         Spotify, so the href is the real destination either way. -->
     <ol class="tracklist glass">
-      <li class="track">
-        <span class="track-idx">01</span>
-        <span class="track-title">Faded Us<span class="track-feat">feat. <span>Elina</span></span><span class="track-note">where it started to slip</span></span>
-        <span class="track-mark">Jul 27</span>
+      <li>
+        <a class="track" href="https://open.spotify.com/track/2WRbcYvi6TD98CgKS46Qsm"
+           data-track="2WRbcYvi6TD98CgKS46Qsm" data-name="Faded Us" target="_blank" rel="noopener">
+          <span class="track-idx">01</span>
+          <span class="track-title">Faded Us<span class="track-feat">feat. <span>Elina</span> · 3:34</span><span class="track-note">where it started to slip</span></span>
+          <span class="track-mark track-play"><span class="play-dot" aria-hidden="true">▶</span><span class="play-word">Play</span></span>
+        </a>
+        <div class="track-player"><div></div></div>
       </li>
-      <li class="track">
-        <span class="track-idx">02</span>
-        <span class="track-title">Nobody Loved U Like I Did<span class="track-feat">feat. <span>Elina</span></span><span class="track-note">the argument you can't take back</span></span>
-        <span class="track-mark">Jul 27</span>
+      <li>
+        <a class="track" href="https://open.spotify.com/track/0cVC50jMfvl6TOgbd05EHD"
+           data-track="0cVC50jMfvl6TOgbd05EHD" data-name="Nobody Loved U Like I Did" target="_blank" rel="noopener">
+          <span class="track-idx">02</span>
+          <span class="track-title">Nobody Loved U Like I Did<span class="track-feat">feat. <span>Elina</span> · 3:56</span><span class="track-note">the argument you can't take back</span></span>
+          <span class="track-mark track-play"><span class="play-dot" aria-hidden="true">▶</span><span class="play-word">Play</span></span>
+        </a>
+        <div class="track-player"><div></div></div>
       </li>
-      <li class="track">
-        <span class="track-idx">03</span>
-        <span class="track-title">if i became a bird<span class="track-feat">feat. <span>Elina</span></span><span class="track-note">a stranger in old photographs</span></span>
-        <span class="track-mark">Jul 27</span>
+      <li>
+        <a class="track" href="https://open.spotify.com/track/092RXsKUXJcMnNYwiDXiNN"
+           data-track="092RXsKUXJcMnNYwiDXiNN" data-name="if i became a bird" target="_blank" rel="noopener">
+          <span class="track-idx">03</span>
+          <span class="track-title">if i became a bird<span class="track-feat">feat. <span>Elina</span> · 4:20</span><span class="track-note">a stranger in old photographs</span></span>
+          <span class="track-mark track-play"><span class="play-dot" aria-hidden="true">▶</span><span class="play-word">Play</span></span>
+        </a>
+        <div class="track-player"><div></div></div>
       </li>
-      <li class="track">
-        <span class="track-idx">04</span>
-        <span class="track-title">Afterglow<span class="track-feat">with <span>James TW &amp; Elina</span></span><span class="track-note">what remains when everything else is gone</span></span>
-        <span class="track-mark">Jul 27</span>
+      <li>
+        <div class="track track-soon">
+          <span class="track-idx">04</span>
+          <span class="track-title">Afterglow<span class="track-feat">with <span>James TW &amp; Elina</span></span><span class="track-note">what remains when everything else is gone</span></span>
+          <span class="track-mark">Coming soon</span>
+        </div>
       </li>
     </ol>
   </section>
 
   <!-- LISTEN -->
   <section class="listen" id="listen">
-    <span class="eyebrow" data-reveal>July 27</span>
-    <h2 data-reveal>Be there the moment it drops.</h2>
+    <span class="eyebrow" data-reveal>Out now</span>
+    <h2 data-reveal>Go hear what stayed.</h2>
     <div class="btn-row" data-reveal>
-      <a class="btn btn-primary" href="https://open.spotify.com/track/7Ldk7LUOOK2jJkKqqLD8Q9?si=3aacae550b4841dc" target="_blank" rel="noopener" aria-label="Listen on Spotify">
+      <a class="btn btn-primary" href="https://open.spotify.com/artist/7pK5O3bB2BfPWIdh5ZgSxn?si=wY4u_CtISnWfn4Z5iE0E2A" target="_blank" rel="noopener" aria-label="Listen on Spotify">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.5 17.32a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.33-1.46c4.57-1.04 8.5-.59 11.66 1.34.35.22.46.68.25 1.03zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.37-1.32 9.79-.68 13.5 1.6.44.27.58.85.3 1.29zm.13-3.4C15.8 8.3 8.9 8.08 5.1 9.24a1.12 1.12 0 1 1-.65-2.15c4.36-1.32 11.98-1.07 16.28 1.48a1.12 1.12 0 1 1-1.15 1.92z"/></svg>
         Listen on Spotify
       </a>
@@ -1146,7 +1220,7 @@
     </div>
 
     <form class="notify glass" id="notify" hidden>
-      <label class="notify-label" for="notify-email">Get notified on release day</label>
+      <label class="notify-label" for="notify-email">Get told the moment Afterglow lands</label>
       <div class="notify-row">
         <input id="notify-email" name="email" type="email" required placeholder="you@email.com" autocomplete="email" />
         <button type="submit" class="btn btn-primary notify-btn">Notify me</button>
@@ -1171,41 +1245,69 @@
   // endpoint here (e.g. 'https://formspree.io/f/abcdwxyz') to enable.
   const NOTIFY_ENDPOINT = '';
 
-  // Release: July 27, 2026, 00:00 local time
-  const target = new Date(2026, 6, 27, 0, 0, 0).getTime();
-  const el = { d: document.getElementById('d'), h: document.getElementById('h'),
-              m: document.getElementById('m'), s: document.getElementById('s') };
-  const cd = document.getElementById('countdown');
-  const pad = n => String(n).padStart(2, '0');
   const motionOK = !matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Update a digit and flip it when the value rolls over
-  const prev = {};
-  function setNum(k, v){
-    if (prev[k] === v) return;
-    prev[k] = v;
-    el[k].textContent = v;
-    if (motionOK){
-      el[k].classList.remove('tick');
-      void el[k].offsetWidth; // restart the animation
-      el[k].classList.add('tick');
-    }
+  // ---- Inline previews ----
+  // A released row carries its Spotify id. Clicking opens the player in place
+  // rather than leaving the page; the iframe is built on first open so four
+  // embeds never load at once, and it is torn down on close because a hidden
+  // embed would otherwise keep playing. With no JS the row is still a link.
+  const PLAYER_CLOSE_MS = 560;   // matches the collapse transition
+  let closeTimer = null;
+
+  function setRowState(row, playing){
+    row.classList.toggle('playing', playing);
+    row.setAttribute('aria-expanded', playing ? 'true' : 'false');
+    const word = row.querySelector('.play-word');
+    const dot  = row.querySelector('.play-dot');
+    if (word) word.textContent = playing ? 'Close' : 'Play';
+    if (dot)  dot.textContent  = playing ? '❙❙' : '▶';
   }
 
-  function tick(){
-    const diff = target - Date.now();
-    if (diff <= 0){
-      cd.innerHTML = '<p class="released-badge">Out now — go listen.</p>';
-      clearInterval(timer);
-      return;
-    }
-    setNum('d', pad(Math.floor(diff / 86400000)));
-    setNum('h', pad(Math.floor(diff % 86400000 / 3600000)));
-    setNum('m', pad(Math.floor(diff % 3600000 / 60000)));
-    setNum('s', pad(Math.floor(diff % 60000 / 1000)));
+  function closeAllPlayers(){
+    if (closeTimer){ clearTimeout(closeTimer); closeTimer = null; }
+    const open = [...document.querySelectorAll('.track-player.open')];
+    open.forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('.track.playing').forEach(r => setRowState(r, false));
+    if (!open.length) return;
+    // let the panel collapse, then drop the iframe — that is what stops the audio
+    closeTimer = setTimeout(() => {
+      open.forEach(p => {
+        const slot = p.firstElementChild;
+        if (slot && !p.classList.contains('open')) slot.innerHTML = '';
+      });
+      closeTimer = null;
+    }, PLAYER_CLOSE_MS);
   }
-  tick();
-  const timer = setInterval(tick, 1000);
+
+  document.querySelectorAll('.track[data-track]').forEach(row => {
+    const panel = row.parentElement.querySelector('.track-player');
+    const slot  = panel && panel.firstElementChild;
+    if (!slot) return;
+    row.setAttribute('aria-expanded', 'false');
+
+    row.addEventListener('click', ev => {
+      // leave modified clicks alone so "open in new tab" still reaches Spotify
+      if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+      ev.preventDefault();
+
+      const wasOpen = panel.classList.contains('open');
+      closeAllPlayers();
+      if (wasOpen) return;
+
+      if (!slot.firstElementChild){
+        const f = document.createElement('iframe');
+        f.title = (row.dataset.name || 'Track') + ' on Spotify';
+        f.src = 'https://open.spotify.com/embed/track/' + row.dataset.track + '?utm_source=generator&theme=0';
+        f.height = 152;
+        f.loading = 'lazy';
+        f.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+        slot.appendChild(f);
+      }
+      panel.classList.add('open');
+      setRowState(row, true);
+    });
+  });
 
   // Reveal tracks on scroll
   const io = new IntersectionObserver((entries) => {
@@ -1288,7 +1390,7 @@
           headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: input.value })
         });
-        if (r.ok){ msg.textContent = "You're on the list. See you July 27."; input.value = ''; }
+        if (r.ok){ msg.textContent = "You're on the list. You'll hear it first."; input.value = ''; }
         else { msg.textContent = 'Something went wrong — try again.'; }
       } catch {
         msg.textContent = 'Something went wrong — try again.';
@@ -1309,22 +1411,6 @@
     });
   }
 
-  // 3D tilt on the countdown card (desktop pointers only)
-  if (motionOK && matchMedia('(pointer:fine)').matches){
-    // once the entrance finishes, hand transform control to the mouse
-    cd.addEventListener('animationend', ev => {
-      if (ev.animationName === 'riseIn'){
-        cd.style.animation = 'glowPulse 6s ease-in-out infinite alternate';
-      }
-    });
-    cd.addEventListener('mousemove', e => {
-      const r = cd.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - .5;
-      const y = (e.clientY - r.top) / r.height - .5;
-      cd.style.transform = 'perspective(700px) rotateX(' + (-y * 6).toFixed(2) + 'deg) rotateY(' + (x * 8).toFixed(2) + 'deg)';
-    });
-    cd.addEventListener('mouseleave', () => { cd.style.transform = ''; });
-  }
 
   // ---- Split text ----
   // Wrap the first text run of an element in per-character spans so a heading
@@ -1335,13 +1421,21 @@
     if (!node) return;
     const holder = document.createElement('span');
     holder.className = 'split';
-    let i = 0;
+    let i = 0, word = null;
     [...node.textContent].forEach(ch => {
       const s = document.createElement('span');
       s.className = 'ch';
       s.textContent = ch;
       s.style.transitionDelay = (i++ * (stagger ?? 26)) + 'ms';
-      holder.appendChild(s);
+      // spaces stay loose so lines can break there; everything else is
+      // gathered into a word that holds together
+      if (/\s/.test(ch)){ word = null; holder.appendChild(s); return; }
+      if (!word){
+        word = document.createElement('span');
+        word.className = 'wd';
+        holder.appendChild(word);
+      }
+      word.appendChild(s);
     });
     el.replaceChild(holder, node);
     el.dataset.split = '1';

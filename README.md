@@ -1,6 +1,6 @@
 # Noctilucente — Artist Site
 
-Landing page for the Noctilucente EP, out **July 27**.
+Landing page for the Noctilucente EP, **out now**.
 
 Noctilucent clouds only appear after the sun is gone — lit from below the
 horizon, glowing at the edge of the dark. The site is built around that idea:
@@ -8,21 +8,39 @@ a near-black sky, a smouldering ember horizon, and a slow-drifting glow band.
 
 ## Tracklist
 
-| # | Track | Credits |
-|---|-------|---------|
-| 01 | Faded Us | feat. Elina |
-| 02 | Nobody Loved U Like I Did | feat. Elina |
-| 03 | if i became a bird | feat. Elina |
-| 04 | Afterglow | with James TW & Elina |
+| # | Track | Credits | Status |
+|---|-------|---------|--------|
+| 01 | Faded Us | feat. Elina | [streaming](https://open.spotify.com/track/2WRbcYvi6TD98CgKS46Qsm) — 3:34 |
+| 02 | Nobody Loved U Like I Did | feat. Elina | [streaming](https://open.spotify.com/track/0cVC50jMfvl6TOgbd05EHD) — 3:56 |
+| 03 | if i became a bird | feat. Elina | [streaming](https://open.spotify.com/track/092RXsKUXJcMnNYwiDXiNN) — 4:20 |
+| 04 | Afterglow | with James TW & Elina | unreleased — shows "Coming soon" |
 
-**Out now:** [Where We Ended](https://open.spotify.com/track/7Ldk7LUOOK2jJkKqqLD8Q9)
-— the latest single, featured on the page above the EP tracklist.
+Also on the page: [Where We Ended](https://open.spotify.com/track/7Ldk7LUOOK2jJkKqqLD8Q9),
+the first single, in its own card above the tracklist.
+
+Each released row opens a Spotify player in place. The row is a real link to
+Spotify, and the click handler only takes over when scripting is available —
+so with JS off, or if anything on the page throws, the row still goes
+somewhere useful. Only one player exists at a time: opening a row tears down
+the previous iframe, which is what stops its audio.
+
+**Adding track 04 when it lands.** Copy one of the released `<li>` blocks,
+swap `data-track` / `data-name` / the `href` for the new Spotify id, and give
+it a `track-play` mark instead of `Coming soon`. Nothing else needs touching —
+the player wiring picks up any `.track[data-track]` on load.
 
 ## Stack
 
 No build step, no dependencies. `index.html` is a single self-contained file:
-markup, styles, and the countdown script all live in it. Fonts load from Google
-Fonts; everything else is pure CSS.
+markup, styles, and script all live in it. Fonts load from Google Fonts;
+everything else is pure CSS.
+
+One consequence worth knowing: it is a **single inline script**, so an
+exception anywhere in it stops everything below that line. That is exactly what
+took the site down after release — the countdown's `clearInterval(timer)` ran
+before `const timer` was initialised, and the resulting `ReferenceError` killed
+the scroll observers, leaving every section stuck at `opacity:0`. When editing
+the script, prefer failing soft over throwing.
 
 - **Display type** — Bodoni Moda (high-contrast Didone; the thick-to-hairline
   stroke reads as luminous), display sizes only
@@ -57,25 +75,24 @@ Or just open `index.html` directly in a browser.
 
 Pull request previews are enabled, so each PR gets its own preview URL.
 
-## Before launch
+## Post-release state
 
-All links are live: Spotify artist profile, the Where We Ended smart link
-(ditto.fm, all platforms), Instagram, and an embedded Spotify player.
-Share previews are covered by `og.png`; favicons and JSON-LD are in place.
+The countdown is gone. The hero now carries the release itself — an "Out now"
+badge and a play button — written into the markup rather than produced by a
+script, so it renders even if nothing else runs.
 
-Remaining options:
+All links are live: Spotify artist profile, the three released tracks, the
+Where We Ended smart link (ditto.fm, all platforms), Instagram, and the
+in-page players. Share previews are covered by `og.png`; favicons and
+JSON-LD are in place.
+
+Open:
 
 - [ ] Email capture — create a free form at [formspree.io](https://formspree.io),
       then paste its endpoint into `NOTIFY_ENDPOINT` at the top of the script
-      in `index.html`. The signup form reveals itself automatically.
-- [ ] EP pre-save link — when the distributor issues one, swap it into the
-      primary CTA so the countdown converts into day-one saves.
-
-The countdown target lives at the bottom of `index.html`:
-
-```js
-const target = new Date(2026, 6, 27, 0, 0, 0).getTime();
-```
-
-Months are zero-indexed, so `6` is July. When the clock runs out the countdown
-replaces itself with "Out now — go listen."
+      in `index.html`. The signup form reveals itself automatically, and now
+      reads as "get told the moment Afterglow lands".
+- [ ] Track 04, Afterglow — not on Spotify yet. See the tracklist note above
+      for what to change when it is.
+- [ ] `cover.jpg` has `07.23.26` set into the artwork itself, which no longer
+      matches anything. Only fixable by re-exporting the cover.
