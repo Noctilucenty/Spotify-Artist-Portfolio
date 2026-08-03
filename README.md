@@ -15,8 +15,14 @@ a near-black sky, a smouldering ember horizon, and a slow-drifting glow band.
 | 03 | if i became a bird | feat. Elina | [streaming](https://open.spotify.com/track/092RXsKUXJcMnNYwiDXiNN) — 4:20 |
 | 04 | Afterglow | with James TW & Elina | unreleased — shows "Coming soon" |
 
-Also on the page: [Where We Ended](https://open.spotify.com/track/7Ldk7LUOOK2jJkKqqLD8Q9),
-the first single, in its own card above the tracklist.
+Also on the page, in cards either side of the tracklist:
+[Where We Ended](https://open.spotify.com/track/7Ldk7LUOOK2jJkKqqLD8Q9), the
+first single, above it — and below it **Afterglow — the intro**, announced for
+**Aug 5**. The intro is its own Spotify release, *not* track 04; the full title
+track has no date yet, which is why the row above still reads "Coming soon".
+
+The upcoming card wears silver rather than the ember badge. That is deliberate:
+the palette reserves fire for music you can already play.
 
 Each released row opens a Spotify player in place. The row is a real link to
 Spotify, and the click handler only takes over when scripting is available —
@@ -92,7 +98,10 @@ Open:
       then paste its endpoint into `NOTIFY_ENDPOINT` at the top of the script
       in `index.html`. The signup form reveals itself automatically, and now
       reads as "get told the moment Afterglow lands".
-- [ ] Track 04, Afterglow — not on Spotify yet. See the tracklist note above
-      for what to change when it is.
+- [ ] **Aug 5** — when the Afterglow intro goes live, swap its card for a
+      playable row (or a card with an embed) using the new Spotify id, and
+      drop the `upcoming` class so it takes the ember "Out Now" badge.
+- [ ] Track 04, the full Afterglow — no date yet. See the tracklist note above
+      for what to change when it lands.
 - [ ] `cover.jpg` has `07.23.26` set into the artwork itself, which no longer
       matches anything. Only fixable by re-exporting the cover.

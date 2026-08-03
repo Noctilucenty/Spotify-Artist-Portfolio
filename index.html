@@ -679,6 +679,18 @@
     text-transform:uppercase;color:var(--accent);white-space:nowrap;
   }
 
+  /* Announced but not out. Fire is reserved for music you can already play,
+     so this one wears the noctilucent silver instead. */
+  .single.upcoming{margin-top:30px;margin-bottom:0}
+  .single.upcoming .single-badge{
+    background:linear-gradient(118deg,#e6e0f5 0%,#c3b8e4 48%,#9d92c9 100%);
+    animation:none;color:#171420;
+  }
+  .single.upcoming .single-play{color:var(--glow)}
+  .single.upcoming:hover .track-title{
+    background:var(--ice);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+
   /* Embedded player */
   .player{max-width:var(--maxw);margin:0 auto 30px;padding:12px;border-radius:24px}
   .player iframe{display:block;border:0;border-radius:14px}
@@ -998,6 +1010,9 @@
     .track-mark{grid-column:2;justify-self:start;margin-top:8px}
     .single{grid-template-columns:auto 1fr;gap:16px}
     .single-play{grid-column:2;justify-self:start}
+    /* the badge spans both rows here, so centre it and a wrapped title
+       leaves it floating in the gutter — keep it level with the title */
+    .single-badge{align-self:start}
     /* phone: icons/CTA hide, wordmark centers in the pill */
     header.nav{justify-content:center;padding:13px 20px}
     .nav-right{display:none}
@@ -1205,6 +1220,14 @@
         </div>
       </li>
     </ol>
+
+    <!-- Announced next: the intro to the title track, a separate release from
+         track 04 itself, which still has no date. -->
+    <a class="single glass upcoming" data-reveal href="https://open.spotify.com/artist/7pK5O3bB2BfPWIdh5ZgSxn?si=wY4u_CtISnWfn4Z5iE0E2A" target="_blank" rel="noopener">
+      <span class="single-badge">Aug 5</span>
+      <span class="track-title">Afterglow — the intro<span class="track-feat">The first light of the title track</span></span>
+      <span class="single-play">Follow to hear it</span>
+    </a>
   </section>
 
   <!-- LISTEN -->
