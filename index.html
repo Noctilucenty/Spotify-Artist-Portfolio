@@ -183,17 +183,128 @@
         #68251c 93%,
         #6d2c1a 100%); /* horizon — bronze */
   }
+  .stars,.stars-mid,.stars-far{
+    position:fixed;inset:0;z-index:-2;pointer-events:none;
+    will-change:transform;transform-origin:50% 50%;
+  }
+  /* Three depth planes. Each is painted once and then only transformed, so a
+     hundred stars cost the same as the seven that used to be here. */
   .stars{
-    position:fixed;inset:0;z-index:-2;
+    opacity:.8;
+    animation:twinkle 7s ease-in-out infinite alternate;
     background-image:
-      radial-gradient(1px 1px at 20% 18%, rgba(244,239,230,.9), transparent),
-      radial-gradient(1px 1px at 68% 12%, rgba(244,239,230,.7), transparent),
-      radial-gradient(1px 1px at 82% 30%, rgba(244,239,230,.8), transparent),
-      radial-gradient(1px 1px at 12% 42%, rgba(244,239,230,.5), transparent),
-      radial-gradient(1px 1px at 44% 8%, rgba(244,239,230,.6), transparent),
-      radial-gradient(1px 1px at 90% 8%, rgba(244,239,230,.55), transparent),
-      radial-gradient(1px 1px at 34% 26%, rgba(244,239,230,.45), transparent);
-    opacity:.72;
+radial-gradient(1.8px 1.8px at 38.8% 80.1%, rgba(244,239,230,0.9), transparent),
+      radial-gradient(1.6px 1.6px at 62.5% 46.1%, rgba(244,239,230,0.79), transparent),
+      radial-gradient(2.0px 2.0px at 49.2% 88.9%, rgba(244,239,230,0.93), transparent),
+      radial-gradient(1.7px 1.7px at 46.3% 79.6%, rgba(244,239,230,0.63), transparent),
+      radial-gradient(1.9px 1.9px at 73.7% 85.5%, rgba(244,239,230,0.63), transparent),
+      radial-gradient(1.8px 1.8px at 59.4% 79.9%, rgba(244,239,230,0.67), transparent),
+      radial-gradient(1.7px 1.7px at 95.3% 47.2%, rgba(244,239,230,0.61), transparent),
+      radial-gradient(1.5px 1.5px at 49.1% 80.2%, rgba(244,239,230,0.63), transparent),
+      radial-gradient(2.2px 2.2px at 17.8% 96.6%, rgba(244,239,230,0.66), transparent),
+      radial-gradient(1.9px 1.9px at 26.7% 86.1%, rgba(244,239,230,0.79), transparent),
+      radial-gradient(1.4px 1.4px at 61.5% 28.6%, rgba(244,239,230,0.93), transparent),
+      radial-gradient(2.0px 2.0px at 81.7% 76.6%, rgba(244,239,230,0.69), transparent),
+      radial-gradient(1.7px 1.7px at 14.9% 80.8%, rgba(244,239,230,0.73), transparent),
+      radial-gradient(2.1px 2.1px at 81.9% 40.3%, rgba(244,239,230,0.57), transparent),
+      radial-gradient(1.7px 1.7px at 12.1% 30.7%, rgba(244,239,230,0.86), transparent),
+      radial-gradient(1.7px 1.7px at 93.8% 81.2%, rgba(244,239,230,0.58), transparent),
+      radial-gradient(1.7px 1.7px at 12.8% 67.7%, rgba(244,239,230,0.58), transparent),
+      radial-gradient(1.9px 1.9px at 48.7% 88.7%, rgba(244,239,230,0.82), transparent),
+      radial-gradient(1.9px 1.9px at 40.5% 72.9%, rgba(244,239,230,0.87), transparent),
+      radial-gradient(1.7px 1.7px at 44.0% 69.7%, rgba(244,239,230,0.66), transparent),
+      radial-gradient(2.0px 2.0px at 21.6% 64.1%, rgba(244,239,230,0.88), transparent),
+      radial-gradient(2.2px 2.2px at 48.7% 2.7%, rgba(244,239,230,0.81), transparent),
+      radial-gradient(1.4px 1.4px at 59.3% 84.9%, rgba(244,239,230,0.84), transparent),
+      radial-gradient(2.2px 2.2px at 52.1% 98.6%, rgba(244,239,230,0.6), transparent);
+  }
+  .stars-mid{
+    opacity:.62;
+    animation:twinkle 9.5s ease-in-out -3s infinite alternate;
+    background-image:
+radial-gradient(1.3px 1.3px at 95.5% 92.5%, rgba(244,239,230,0.5), transparent),
+      radial-gradient(1.4px 1.4px at 19.0% 58.5%, rgba(244,239,230,0.56), transparent),
+      radial-gradient(1.4px 1.4px at 61.6% 3.5%, rgba(244,239,230,0.32), transparent),
+      radial-gradient(1.4px 1.4px at 4.2% 40.8%, rgba(244,239,230,0.51), transparent),
+      radial-gradient(1.3px 1.3px at 18.2% 18.0%, rgba(244,239,230,0.5), transparent),
+      radial-gradient(1.3px 1.3px at 30.5% 71.6%, rgba(244,239,230,0.42), transparent),
+      radial-gradient(1.5px 1.5px at 69.6% 21.8%, rgba(244,239,230,0.57), transparent),
+      radial-gradient(1.4px 1.4px at 70.4% 25.6%, rgba(244,239,230,0.33), transparent),
+      radial-gradient(1.4px 1.4px at 51.0% 87.9%, rgba(244,239,230,0.37), transparent),
+      radial-gradient(1.3px 1.3px at 6.6% 94.0%, rgba(244,239,230,0.56), transparent),
+      radial-gradient(1.5px 1.5px at 53.8% 56.3%, rgba(244,239,230,0.46), transparent),
+      radial-gradient(1.5px 1.5px at 47.9% 16.7%, rgba(244,239,230,0.6), transparent),
+      radial-gradient(1.0px 1.0px at 16.6% 33.9%, rgba(244,239,230,0.59), transparent),
+      radial-gradient(1.2px 1.2px at 71.1% 93.5%, rgba(244,239,230,0.58), transparent),
+      radial-gradient(1.2px 1.2px at 57.5% 8.5%, rgba(244,239,230,0.6), transparent),
+      radial-gradient(1.0px 1.0px at 47.1% 67.8%, rgba(244,239,230,0.5), transparent),
+      radial-gradient(1.3px 1.3px at 89.4% 11.9%, rgba(244,239,230,0.35), transparent),
+      radial-gradient(1.3px 1.3px at 4.1% 41.9%, rgba(244,239,230,0.44), transparent),
+      radial-gradient(1.3px 1.3px at 8.5% 22.8%, rgba(244,239,230,0.37), transparent),
+      radial-gradient(1.1px 1.1px at 97.0% 2.5%, rgba(244,239,230,0.54), transparent),
+      radial-gradient(1.1px 1.1px at 84.9% 25.9%, rgba(244,239,230,0.46), transparent),
+      radial-gradient(1.2px 1.2px at 4.4% 67.8%, rgba(244,239,230,0.31), transparent),
+      radial-gradient(1.3px 1.3px at 22.2% 72.8%, rgba(244,239,230,0.59), transparent),
+      radial-gradient(1.1px 1.1px at 42.5% 91.8%, rgba(244,239,230,0.61), transparent),
+      radial-gradient(1.1px 1.1px at 60.3% 77.8%, rgba(244,239,230,0.36), transparent),
+      radial-gradient(1.3px 1.3px at 92.4% 92.5%, rgba(244,239,230,0.56), transparent),
+      radial-gradient(1.0px 1.0px at 57.6% 72.8%, rgba(244,239,230,0.35), transparent),
+      radial-gradient(1.2px 1.2px at 62.6% 10.9%, rgba(244,239,230,0.42), transparent),
+      radial-gradient(1.3px 1.3px at 33.3% 1.9%, rgba(244,239,230,0.5), transparent),
+      radial-gradient(1.3px 1.3px at 74.9% 33.5%, rgba(244,239,230,0.55), transparent),
+      radial-gradient(1.0px 1.0px at 41.1% 86.6%, rgba(244,239,230,0.58), transparent),
+      radial-gradient(1.1px 1.1px at 28.5% 72.0%, rgba(244,239,230,0.47), transparent);
+  }
+  .stars-far{
+    opacity:.5;
+    animation:twinkle 13s ease-in-out -7s infinite alternate;
+    background-image:
+radial-gradient(1.1px 1.1px at 2.3% 39.6%, rgba(244,239,230,0.24), transparent),
+      radial-gradient(1.2px 1.2px at 94.5% 96.9%, rgba(244,239,230,0.18), transparent),
+      radial-gradient(1.1px 1.1px at 74.6% 15.3%, rgba(244,239,230,0.2), transparent),
+      radial-gradient(1.0px 1.0px at 78.1% 63.9%, rgba(244,239,230,0.16), transparent),
+      radial-gradient(0.8px 0.8px at 61.3% 89.1%, rgba(244,239,230,0.28), transparent),
+      radial-gradient(0.9px 0.9px at 52.4% 64.5%, rgba(244,239,230,0.22), transparent),
+      radial-gradient(0.9px 0.9px at 94.5% 47.6%, rgba(244,239,230,0.25), transparent),
+      radial-gradient(1.0px 1.0px at 95.1% 30.6%, rgba(244,239,230,0.35), transparent),
+      radial-gradient(1.0px 1.0px at 81.8% 91.7%, rgba(244,239,230,0.31), transparent),
+      radial-gradient(1.0px 1.0px at 14.6% 17.5%, rgba(244,239,230,0.22), transparent),
+      radial-gradient(1.1px 1.1px at 94.0% 42.5%, rgba(244,239,230,0.3), transparent),
+      radial-gradient(1.2px 1.2px at 30.1% 84.2%, rgba(244,239,230,0.22), transparent),
+      radial-gradient(1.1px 1.1px at 90.3% 7.2%, rgba(244,239,230,0.22), transparent),
+      radial-gradient(1.1px 1.1px at 18.6% 92.1%, rgba(244,239,230,0.35), transparent),
+      radial-gradient(0.8px 0.8px at 42.5% 90.9%, rgba(244,239,230,0.26), transparent),
+      radial-gradient(0.8px 0.8px at 96.0% 93.5%, rgba(244,239,230,0.19), transparent),
+      radial-gradient(0.8px 0.8px at 85.1% 52.2%, rgba(244,239,230,0.24), transparent),
+      radial-gradient(0.8px 0.8px at 42.7% 13.0%, rgba(244,239,230,0.2), transparent),
+      radial-gradient(1.1px 1.1px at 81.4% 9.2%, rgba(244,239,230,0.38), transparent),
+      radial-gradient(0.9px 0.9px at 5.5% 13.0%, rgba(244,239,230,0.19), transparent),
+      radial-gradient(0.8px 0.8px at 64.8% 72.4%, rgba(244,239,230,0.18), transparent),
+      radial-gradient(1.1px 1.1px at 83.8% 1.3%, rgba(244,239,230,0.32), transparent),
+      radial-gradient(0.9px 0.9px at 42.5% 3.6%, rgba(244,239,230,0.25), transparent),
+      radial-gradient(1.0px 1.0px at 91.5% 11.5%, rgba(244,239,230,0.36), transparent),
+      radial-gradient(1.1px 1.1px at 23.2% 67.0%, rgba(244,239,230,0.18), transparent),
+      radial-gradient(0.8px 0.8px at 55.2% 5.7%, rgba(244,239,230,0.29), transparent),
+      radial-gradient(0.9px 0.9px at 2.1% 56.5%, rgba(244,239,230,0.29), transparent),
+      radial-gradient(1.2px 1.2px at 95.4% 33.0%, rgba(244,239,230,0.36), transparent),
+      radial-gradient(1.2px 1.2px at 87.8% 14.9%, rgba(244,239,230,0.19), transparent),
+      radial-gradient(1.0px 1.0px at 1.4% 9.5%, rgba(244,239,230,0.36), transparent),
+      radial-gradient(1.0px 1.0px at 47.5% 17.2%, rgba(244,239,230,0.24), transparent),
+      radial-gradient(1.2px 1.2px at 4.6% 77.7%, rgba(244,239,230,0.32), transparent),
+      radial-gradient(0.9px 0.9px at 74.5% 89.9%, rgba(244,239,230,0.2), transparent),
+      radial-gradient(0.9px 0.9px at 62.4% 14.2%, rgba(244,239,230,0.32), transparent),
+      radial-gradient(1.1px 1.1px at 42.4% 70.0%, rgba(244,239,230,0.37), transparent),
+      radial-gradient(1.2px 1.2px at 91.6% 14.0%, rgba(244,239,230,0.17), transparent),
+      radial-gradient(1.2px 1.2px at 27.9% 81.5%, rgba(244,239,230,0.3), transparent),
+      radial-gradient(1.2px 1.2px at 71.6% 81.1%, rgba(244,239,230,0.36), transparent),
+      radial-gradient(0.9px 0.9px at 85.2% 16.2%, rgba(244,239,230,0.27), transparent),
+      radial-gradient(1.0px 1.0px at 74.1% 24.8%, rgba(244,239,230,0.31), transparent),
+      radial-gradient(1.1px 1.1px at 43.0% 9.5%, rgba(244,239,230,0.32), transparent),
+      radial-gradient(0.9px 0.9px at 42.1% 98.0%, rgba(244,239,230,0.29), transparent),
+      radial-gradient(1.2px 1.2px at 36.6% 4.6%, rgba(244,239,230,0.35), transparent),
+      radial-gradient(1.1px 1.1px at 69.8% 30.8%, rgba(244,239,230,0.26), transparent),
+      radial-gradient(1.0px 1.0px at 62.4% 24.5%, rgba(244,239,230,0.29), transparent),
+      radial-gradient(1.0px 1.0px at 22.5% 14.0%, rgba(244,239,230,0.21), transparent);
   }
   /* The noctilucent glow band — the signature */
   .noctilucent{
@@ -233,6 +344,38 @@
   }
   @keyframes drift2{ from{transform:translateX(4%) skewX(1deg)} to{transform:translateX(-4%) skewX(-1deg)} }
   @keyframes breathe2{ 0%,100%{opacity:.10} 50%{opacity:.2} }
+  /* Aurora curtain — the story chapter's own weather. Striations inside a
+     heavy blur, swaying on transform only; JS fades it in with the chapter and
+     out after, so it belongs to that scene rather than to the whole page. */
+  .aurora{
+    position:fixed;left:-18%;right:-18%;top:-8%;height:78vh;z-index:-2;
+    pointer-events:none;opacity:0;will-change:transform,opacity;
+    background:
+      repeating-linear-gradient(96deg,
+        rgba(190,179,224,0) 0px,
+        rgba(198,214,236,.17) 34px,
+        rgba(170,190,220,.05) 78px,
+        rgba(226,216,248,.18) 128px,
+        rgba(190,179,224,0) 186px),
+      radial-gradient(60% 72% at 40% 6%, rgba(150,178,222,.22) 0%, transparent 68%),
+      radial-gradient(54% 64% at 70% 0%, rgba(186,150,222,.17) 0%, transparent 66%);
+    filter:blur(54px);
+    mask-image:
+      linear-gradient(180deg, #000 0%, #000 44%, transparent 92%),
+      linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+    -webkit-mask-image:
+      linear-gradient(180deg, #000 0%, #000 44%, transparent 92%),
+      linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+    mask-composite:intersect;
+    -webkit-mask-composite:source-in;
+    transform-origin:50% 0;
+    animation:auroraSway 34s ease-in-out infinite alternate;
+  }
+  @keyframes auroraSway{
+    from{transform:translateX(-5%) skewX(-4deg) scaleY(.9)}
+    to{transform:translateX(5%) skewX(4deg) scaleY(1.1)}
+  }
+
   /* a rare, quiet meteor */
   .meteor{
     position:fixed;top:16%;left:-9%;width:110px;height:1px;z-index:-1;pointer-events:none;
@@ -246,6 +389,22 @@
     8%{transform:translate(68vw,19vh) rotate(-16deg);opacity:0}
     100%{transform:translate(68vw,19vh) rotate(-16deg);opacity:0}
   }
+  /* two more, on their own paths, so the sky is never quite still */
+  .meteor.m2{top:35%;width:152px;animation:meteor2 31s ease-in 15s infinite}
+  .meteor.m3{top:7%;width:88px;animation:meteor3 44s ease-in 27s infinite}
+  @keyframes meteor2{
+    0%{transform:translate(0,0) rotate(-23deg);opacity:0}
+    2%{opacity:.55}
+    7%{transform:translate(86vw,37vh) rotate(-23deg);opacity:0}
+    100%{transform:translate(86vw,37vh) rotate(-23deg);opacity:0}
+  }
+  @keyframes meteor3{
+    0%{transform:translate(0,0) rotate(-9deg);opacity:0}
+    3%{opacity:.5}
+    9%{transform:translate(56vw,9vh) rotate(-9deg);opacity:0}
+    100%{transform:translate(56vw,9vh) rotate(-9deg);opacity:0}
+  }
+
   /* the countdown catches a passing light every so often */
   .countdown::after{animation:idleSheen 14s ease-in-out 5s infinite}
   @keyframes idleSheen{
@@ -264,8 +423,6 @@
     100%{transform:translate(28px,-94vh) scale(.35);opacity:0}
   }
 
-  /* Stars breathe slowly */
-  .stars{animation:twinkle 7s ease-in-out infinite alternate;will-change:transform;transform-origin:50% 50%}
   .clouds{will-change:transform;transform-origin:50% 50%}
 
   /* Floating star motes — drift over everything, including the text */
@@ -579,7 +736,42 @@
     display:grid;place-items:center;
     padding:0 28px;overflow:hidden;
   }
+  /* Constellations draw themselves once the chapter is on screen — the line
+     work is a dash offset, so it animates without repainting the scene. */
+  .constellation{
+    position:absolute;pointer-events:none;z-index:0;
+    opacity:0;transition:opacity 1.5s ease;
+  }
+  .story-stage.lit .constellation{opacity:1}
+  .constellation svg{display:block;width:100%;height:auto;overflow:visible}
+  .constellation line{
+    stroke:rgba(190,179,224,.45);stroke-width:1;
+    stroke-dasharray:300;stroke-dashoffset:300;
+    transition:stroke-dashoffset 2.4s cubic-bezier(.2,.7,.25,1);
+  }
+  .story-stage.lit .constellation line{stroke-dashoffset:0}
+  .constellation line:nth-child(2){transition-delay:.3s}
+  .constellation line:nth-child(3){transition-delay:.6s}
+  .constellation line:nth-child(4){transition-delay:.9s}
+  .constellation line:nth-child(5){transition-delay:1.2s}
+  .constellation line:nth-child(6){transition-delay:1.5s}
+  .constellation circle{
+    fill:#f6f1e8;opacity:0;
+    transition:opacity 1s ease;
+  }
+  .story-stage.lit .constellation circle{opacity:.85}
+  .c-left{left:3.5%;top:14%;width:min(27vw,320px)}
+  .c-right{right:4%;bottom:12%;width:min(21vw,240px)}
+
+  /* chapter mark, set above each line in the liner-note voice */
+  .story-mark{
+    position:absolute;left:0;right:0;top:-2.7em;
+    font-family:"Geist Mono",monospace;font-weight:500;font-size:.62rem;
+    letter-spacing:.44em;text-transform:uppercase;color:var(--glow);
+    padding-left:.44em;
+  }
   .story-line{
+    position:relative;
     grid-area:1/1;text-align:center;max-width:22ch;
     font-family:"Bodoni Moda",serif;font-weight:400;
     font-size:clamp(2rem,5.2vw,3.8rem);line-height:1.3;color:var(--paper);
@@ -1048,6 +1240,10 @@
     .noctilucent.n2{display:none}
     /* two full-screen blend layers cost real fill-rate on phone GPUs */
     .tide{display:none}
+    .stars-far{display:none}
+    .constellation{display:none}
+    .meteor.m2,.meteor.m3{display:none}
+    .aurora{filter:blur(38px);height:62vh}
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -1056,7 +1252,11 @@
     .track{transition:none;opacity:1;transform:none}
     html{scroll-behavior:auto}
     .embers{display:none}
-    .stars{animation:none}
+    .stars,.stars-mid,.stars-far{animation:none}
+    .aurora{animation:none;opacity:.42}
+    .constellation{opacity:1;transition:none}
+    .constellation line{stroke-dashoffset:0;transition:none}
+    .constellation circle{opacity:.85;transition:none}
     .lockup-artist,.lockup-rule,.lockup-sub,
     .hero .eyebrow,.hero h1,.hero .tagline,.countdown,.scroll-cue,
     .out-now,.out-now .btn,
@@ -1098,6 +1298,9 @@
   <div class="warp" aria-hidden="true"></div>
   <div class="sky"><div class="sky-ramp"></div></div>
   <div class="stars"></div>
+  <div class="stars-mid" aria-hidden="true"></div>
+  <div class="stars-far" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
   <div class="clouds" aria-hidden="true"></div>
   <div class="temp" aria-hidden="true"></div>
   <div class="tide tide-cool" aria-hidden="true"></div>
@@ -1105,6 +1308,8 @@
   <div class="noctilucent"></div>
   <div class="noctilucent n2" aria-hidden="true"></div>
   <div class="meteor" aria-hidden="true"></div>
+  <div class="meteor m2" aria-hidden="true"></div>
+  <div class="meteor m3" aria-hidden="true"></div>
   <div class="embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="grain"></div>
 
@@ -1157,9 +1362,34 @@
   <!-- STORY — pinned chapter: lines dissolve through each other as you move -->
   <section class="story">
     <div class="story-stage">
-      <p class="story-line">Some light disappears.</p>
-      <p class="story-line">Some light <em>remains</em>.</p>
-      <p class="story-line story-final">Four songs about what stays after goodbye.</p>
+      <div class="constellation c-left" aria-hidden="true">
+        <svg viewBox="0 0 200 150" fill="none">
+          <line x1="18" y1="120" x2="52" y2="86"/>
+          <line x1="52" y1="86" x2="96" y2="98"/>
+          <line x1="96" y1="98" x2="120" y2="54"/>
+          <line x1="120" y1="54" x2="162" y2="36"/>
+          <line x1="96" y1="98" x2="140" y2="112"/>
+          <line x1="52" y1="86" x2="74" y2="40"/>
+          <circle cx="18" cy="120" r="1.8"/><circle cx="52" cy="86" r="2.4"/>
+          <circle cx="96" cy="98" r="2"/><circle cx="120" cy="54" r="2.6"/>
+          <circle cx="162" cy="36" r="1.8"/><circle cx="140" cy="112" r="1.6"/>
+          <circle cx="74" cy="40" r="2"/>
+        </svg>
+      </div>
+      <div class="constellation c-right" aria-hidden="true">
+        <svg viewBox="0 0 160 130" fill="none">
+          <line x1="12" y1="30" x2="56" y2="58"/>
+          <line x1="56" y1="58" x2="98" y2="26"/>
+          <line x1="98" y1="26" x2="128" y2="74"/>
+          <line x1="56" y1="58" x2="70" y2="110"/>
+          <circle cx="12" cy="30" r="1.7"/><circle cx="56" cy="58" r="2.4"/>
+          <circle cx="98" cy="26" r="2"/><circle cx="128" cy="74" r="1.8"/>
+          <circle cx="70" cy="110" r="1.6"/>
+        </svg>
+      </div>
+      <p class="story-line"><span class="story-mark">I</span>Some light disappears.</p>
+      <p class="story-line"><span class="story-mark">II</span>Some light <em>remains</em>.</p>
+      <p class="story-line story-final"><span class="story-mark">III</span>Four songs about what stays after goodbye.</p>
     </div>
   </section>
 
@@ -1601,8 +1831,15 @@
   // skipped while they are off screen — without that, each wheel tick (and
   // every mouse move) restyled dozens of nodes for no visible difference.
   if (motionOK){
-    const stars  = document.querySelector('.stars');
+    // [layer, scroll factor, pointer factor] — nearer planes move more
+    const starLayers = [
+      [document.querySelector('.stars'),     .05,  1],
+      [document.querySelector('.stars-mid'), .028, .58],
+      [document.querySelector('.stars-far'), .014, .3],
+    ].filter(l => l[0]);
     const clouds = document.querySelector('.clouds');
+    const aurora = document.querySelector('.aurora');
+    const stage  = document.querySelector('.story-stage');
     const temp   = document.querySelector('.temp');
     const wrap   = document.querySelector('.cover-wrap');
     const glowEl = document.querySelector('.cover-glow');
@@ -1657,8 +1894,10 @@
 
       // layered depth — distant things barely move, and the whole field
       // stretches with speed so fast scrolling smears the sky into streaks
-      setT(stars, 'translate(' + mx.toFixed(1) + 'px,' + (sy * .05 * F + my).toFixed(1) +
-        'px) scaleY(' + (1 + v * 2.2).toFixed(2) + ')');
+      starLayers.forEach(([el, f, m]) => {
+        setT(el, 'translate(' + (mx * m).toFixed(1) + 'px,' + (sy * f * F + my * m).toFixed(1) +
+          'px) scaleY(' + (1 + v * 2.2 * m).toFixed(2) + ')');
+      });
       setT(clouds, 'translateY(' + (sy * .025 * F).toFixed(1) + 'px) scaleY(' + (1 + v * .2).toFixed(3) + ')');
 
       // speed reads as a rising haze — opacity only, so it stays composited
@@ -1680,7 +1919,14 @@
       // story: each line assembles word by word, then dissolves into the
       // next. Progress pins to [0,1], so past either end the scene is one
       // compare and every settled word costs nothing.
-      const sp = clamp((sy - storyTop) / storySpan, 0, 1);
+      // the aurora blooms as the chapter arrives and fades once it is past,
+      // and the constellations draw themselves the first time it is on screen
+      const rawSp = (sy - storyTop) / storySpan;
+      const bloom = clamp(Math.min((rawSp + .3) / .34, (1.2 - rawSp) / .3), 0, 1);
+      setO(aurora, (bloom * .9).toFixed(3));
+      if (bloom > .3) stage.classList.add('lit');
+
+      const sp = clamp(rawSp, 0, 1);
       if (sp !== spLast){
         spLast = sp;
         const seg = 1 / lines.length;
