@@ -90,11 +90,14 @@
   /* ---------- Liquid glass ---------- */
   .glass{
     position:relative;
+    /* No backdrop-filter: the sky behind these panels never stops animating,
+       so a backdrop blur re-samples a huge region every frame — it was the
+       main source of scroll lag. The frost is faked with layered tints;
+       the hairline border, specular edge and sheen carry the glass look. */
     background:
       linear-gradient(155deg, rgba(255,255,255,.075), rgba(255,255,255,.02)),
-      linear-gradient(180deg, rgba(11,9,14,.62), rgba(11,9,14,.5));
-    backdrop-filter:blur(26px) saturate(155%);
-    -webkit-backdrop-filter:blur(26px) saturate(175%);
+      linear-gradient(155deg, rgba(190,179,224,.05), rgba(190,179,224,.01)),
+      linear-gradient(180deg, rgba(13,11,17,.82), rgba(13,11,17,.7));
     border:1px solid rgba(255,255,255,.10);
     border-radius:28px;
     box-shadow:
@@ -346,18 +349,21 @@
   }
 
 
-  /* High clouds, imperceptibly drifting */
-  .clouds{
-    position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.4;
+  /* High clouds, imperceptibly drifting. The drift is a transform on an
+     oversized ::before — animating background-position repainted the whole
+     screen for the full 160s, forever. The parent keeps the JS parallax. */
+  .clouds{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.4}
+  .clouds::before{
+    content:"";position:absolute;left:-60%;top:-50%;width:220%;height:200%;
     background:
       radial-gradient(42% 16% at 22% 26%, rgba(178,198,222,.09), transparent 70%),
       radial-gradient(52% 18% at 76% 18%, rgba(190,179,224,.07), transparent 70%),
       radial-gradient(46% 15% at 60% 62%, rgba(255,150,150,.06), transparent 70%),
       radial-gradient(36% 14% at 50% 40%, rgba(170,160,200,.05), transparent 70%);
-    background-size:180% 180%;
+    will-change:transform;
     animation:cloudDrift 160s ease-in-out infinite alternate;
   }
-  @keyframes cloudDrift{ from{background-position:0% 0%} to{background-position:100% 26%} }
+  @keyframes cloudDrift{ from{transform:translate(0,0)} to{transform:translate(-22%,-10%)} }
 
   /* ---- Extended motion pass ---- */
   @keyframes haloSpin{ to{transform:translate(-50%,-58%) rotate(360deg)} }
@@ -530,15 +536,29 @@
     filter:blur(34px);
     opacity:0;will-change:opacity;
   }
+  /* This strip exists to mush the type baked into the artwork so the HTML
+     lockup on top stays the only legible text. It is a blurred COPY of the
+     cover, not a backdrop-filter: the wrap transforms every frame under the
+     pointer, and re-blurring the backdrop each frame lagged (and flickered
+     in Safari). A filtered copy rasterises once and rides the transform. */
   .cover-blur{
     position:absolute;left:0;right:0;top:0;height:64%;
     border-radius:20px 20px 0 0;
-    background:linear-gradient(180deg, rgba(6,3,12,.44) 0%, rgba(6,3,12,.2) 55%, rgba(6,3,12,0) 78%);
-    backdrop-filter:blur(22px) saturate(135%);
-    -webkit-backdrop-filter:blur(22px) saturate(135%);
+    overflow:hidden;
     mask-image:linear-gradient(180deg,#000 0%,#000 58%,transparent 100%);
     -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 58%,transparent 100%);
     pointer-events:none;
+  }
+  .cover-blur::before{
+    content:"";position:absolute;left:0;top:0;width:100%;
+    height:156.25%; /* the strip is 64% of the square cover */
+    background:url(cover.jpg) center/100% 100% no-repeat;
+    filter:blur(22px) saturate(135%);
+    transform:scale(1.06); /* tuck the blur's soft edge out of view */
+  }
+  .cover-blur::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(6,3,12,.44) 0%, rgba(6,3,12,.2) 55%, rgba(6,3,12,0) 78%);
   }
   .cover-wrap img{
     display:block;width:100%;height:auto;border-radius:20px;
@@ -660,7 +680,9 @@
     display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:24px;
     max-width:var(--maxw);margin:0 auto 30px;
     padding:28px clamp(20px,3vw,38px);
-    transition:transform .4s ease;
+    /* opacity must stay listed or this shorthand clobbers the data-reveal
+       fade and the card pops in instead of rising */
+    transition:opacity 1s ease, transform .4s ease;
   }
   .single:hover{transform:translateY(-3px)}
   .single-badge{
@@ -806,7 +828,6 @@
     padding:17px 32px;border-radius:100px;transition:transform .3s, background .4s, box-shadow .4s, border-color .4s;
     display:inline-flex;align-items:center;gap:10px;
     position:relative;overflow:hidden;
-    backdrop-filter:blur(18px) saturate(170%);-webkit-backdrop-filter:blur(18px) saturate(170%);
   }
   .btn-primary::after{
     content:"";position:absolute;inset:0;pointer-events:none;
@@ -1000,9 +1021,6 @@
   }
   .track.in .track-title .ch{opacity:1;transform:none;filter:blur(0)}
 
-  /* --- Section headings lift on approach --- */
-  .record-head h2,.listen h2,.foot-name{will-change:transform}
-
   @media (max-width:620px){
     .cd-sep{display:none}
     .countdown{gap:20px}
@@ -1028,6 +1046,8 @@
     .hero{height:140svh}
     .story{height:200svh}
     .noctilucent.n2{display:none}
+    /* two full-screen blend layers cost real fill-rate on phone GPUs */
+    .tide{display:none}
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -1054,7 +1074,7 @@
     .split .ch{opacity:1;transform:none;filter:none;transition:none}
     .track .track-title .ch{opacity:1;transform:none;filter:none;transition:none}
     .noctilucent.n2,.countdown::after{animation:none}
-    .clouds,.cover-wrap img,.story-line em{animation:none}
+    .clouds,.clouds::before,.cover-wrap img,.story-line em{animation:none}
     .track-note{transition:none}
     /* unpin the scenes: clean fades, no parallax, nothing trapped */
     .hero{height:auto}
@@ -1527,6 +1547,13 @@
     splitChars(document.querySelector('.listen h2'), 24);
     splitChars(document.querySelector('.foot-name'), 34);
     document.querySelectorAll('.track .track-title').forEach(t => splitChars(t, 18));
+    // The split runs against fallback fonts; once the real faces arrive the
+    // characters move and every gradient slice sits at the wrong offset.
+    if (document.fonts && document.fonts.ready){
+      document.fonts.ready.then(() => {
+        document.querySelectorAll('[data-split]').forEach(regradient);
+      });
+    }
   }
 
   // ---- Pointer light + magnetic controls ----
@@ -1570,6 +1597,9 @@
   //   2. story pin: three lines dissolve through one another
   //   3. depth: stars, clouds and haze move at different speeds
   //   4. temperature: the page warms as the story develops
+  // Every write goes through a changed-value check, and whole scenes are
+  // skipped while they are off screen — without that, each wheel tick (and
+  // every mouse move) restyled dozens of nodes for no visible difference.
   if (motionOK){
     const stars  = document.querySelector('.stars');
     const clouds = document.querySelector('.clouds');
@@ -1578,6 +1608,7 @@
     const glowEl = document.querySelector('.cover-glow');
     const lockup = document.querySelector('.cover-lockup');
     const tagEl  = document.querySelector('.hero .tagline');
+    const hero   = document.querySelector('.hero');
     const story  = document.querySelector('.story');
     const lines  = [...document.querySelectorAll('.story-line')];
     const bar    = document.querySelector('.progress');
@@ -1589,14 +1620,32 @@
     const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
     let raf = null, mx = 0, my = 0;
 
+    const setT = (el, val) => { if (el._t !== val){ el._t = val; el.style.transform = val; } };
+    const setO = (el, val) => { if (el._o !== val){ el._o = val; el.style.opacity = val; } };
+
     // each story line becomes words, so the sentence assembles as you scroll
     lines.forEach(el => { el._words = splitWords(el); el.style.opacity = 1; });
 
+    // Geometry is cached: reading offsets or scrollHeight mid-frame forces
+    // layout, and none of it changes except on resize — or when a track
+    // player opens and the page grows under us, which the observer catches.
+    let vh = innerHeight, heroH = 0, storyTop = 0, storySpan = 1, docH = 1;
+    const measure = () => {
+      vh = innerHeight;
+      heroH = hero.offsetHeight;
+      storyTop = story.offsetTop;
+      storySpan = Math.max(1, story.offsetHeight - vh);
+      docH = Math.max(1, document.documentElement.scrollHeight - vh);
+    };
+    measure();
+    if ('ResizeObserver' in window)
+      new ResizeObserver(() => { measure(); queue(); }).observe(document.body);
+
     // scroll velocity — the sky smears when you move fast
-    let lastY = scrollY, vel = 0;
+    let lastY = scrollY, vel = 0, hpLast = -1, spLast = -1;
 
     const apply = () => {
-      const sy = scrollY, vh = innerHeight;
+      const sy = scrollY;
 
       // velocity — measured first so the depth layers can react to it.
       // Transform only: `breathe` already owns the band's opacity, and
@@ -1608,63 +1657,73 @@
 
       // layered depth — distant things barely move, and the whole field
       // stretches with speed so fast scrolling smears the sky into streaks
-      stars.style.transform  =
-        'translate(' + mx + 'px,' + (sy * .05 * F + my) + 'px) scaleY(' + (1 + v * 2.2).toFixed(2) + ')';
-      clouds.style.transform =
-        'translateY(' + (sy * .025 * F) + 'px) scaleY(' + (1 + v * .2).toFixed(3) + ')';
+      setT(stars, 'translate(' + mx.toFixed(1) + 'px,' + (sy * .05 * F + my).toFixed(1) +
+        'px) scaleY(' + (1 + v * 2.2).toFixed(2) + ')');
+      setT(clouds, 'translateY(' + (sy * .025 * F).toFixed(1) + 'px) scaleY(' + (1 + v * .2).toFixed(3) + ')');
 
       // speed reads as a rising haze — opacity only, so it stays composited
-      warp.style.opacity = (v * .55).toFixed(3);
+      setO(warp, (v * .55).toFixed(3));
 
-      // hero: artwork emerges, warm light appears behind it
+      // hero: artwork emerges, warm light appears behind it — skipped once
+      // the pinned stage has fully scrolled away
       const hp = clamp(sy / (vh * (mobile ? .4 : .7)), 0, 1);
-      wrap.style.transform =
-        'perspective(900px) rotateY(' + (mx * .3) + 'deg) rotateX(' + (-my * .3) + 'deg)' +
-        ' translateY(' + (hp * -8) + 'px) scale(' + (.965 + hp * .07) + ')';
-      glowEl.style.opacity = (hp * .95).toFixed(3);
-      lockup.style.transform = 'translateY(' + (hp * -12) + 'px)';
-      tagEl.style.opacity = (1 - hp * .12).toFixed(3);
-      if (hp > .5) wrap.classList.add('lit');     // one light sweep across the cover
+      if (sy <= heroH || hpLast !== 1){
+        setT(wrap, 'perspective(900px) rotateY(' + (mx * .3).toFixed(2) + 'deg) rotateX(' + (-my * .3).toFixed(2) +
+          'deg) translateY(' + (hp * -8).toFixed(1) + 'px) scale(' + (.965 + hp * .07).toFixed(4) + ')');
+        setO(glowEl, (hp * .95).toFixed(3));
+        setT(lockup, 'translateY(' + (hp * -12).toFixed(1) + 'px)');
+        setO(tagEl, (1 - hp * .12).toFixed(3));
+        if (hp > .5) wrap.classList.add('lit');   // one light sweep across the cover
+        hpLast = hp;
+      }
 
-      // story: each line assembles word by word, then dissolves into the next
-      const r = story.getBoundingClientRect();
-      const span = r.height - vh;
-      const sp = clamp(-r.top / span, 0, 1);
-      const seg = 1 / lines.length;
-      lines.forEach((el, i) => {
-        const center = (i + .5) * seg;
-        const signed = (sp - center) / (seg * .8);   // -1 before, 0 centred, +1 past
-        const near = clamp(1.25 - Math.abs(signed), 0, 1);
-        el.style.transform = 'translateY(' + (signed * -70) + 'px)';
-        const ws = el._words, n = Math.max(1, ws.length - 1);
-        ws.forEach((w, wi) => {
-          // words lead in left-to-right, so the sentence writes itself
-          const lead = wi / n;
-          const p = clamp(near * 1.45 - lead * .42, 0, 1);
-          w.style.opacity = p.toFixed(3);
-          w.style.filter = 'blur(' + ((1 - p) * 17).toFixed(2) + 'px)';
-          w.style.transform =
-            'translateY(' + ((1 - p) * 30).toFixed(1) + 'px) scale(' + (.94 + p * .06).toFixed(3) + ')';
+      // story: each line assembles word by word, then dissolves into the
+      // next. Progress pins to [0,1], so past either end the scene is one
+      // compare and every settled word costs nothing.
+      const sp = clamp((sy - storyTop) / storySpan, 0, 1);
+      if (sp !== spLast){
+        spLast = sp;
+        const seg = 1 / lines.length;
+        lines.forEach((el, i) => {
+          const center = (i + .5) * seg;
+          const signed = (sp - center) / (seg * .8);   // -1 before, 0 centred, +1 past
+          const near = clamp(1.25 - Math.abs(signed), 0, 1);
+          setT(el, 'translateY(' + (signed * -70).toFixed(1) + 'px)');
+          const ws = el._words, n = Math.max(1, ws.length - 1);
+          ws.forEach((w, wi) => {
+            // words lead in left-to-right, so the sentence writes itself
+            const lead = wi / n;
+            const p = clamp(near * 1.45 - lead * .42, 0, 1);
+            if (w._p === p) return;
+            w._p = p;
+            w.style.opacity = p.toFixed(3);
+            w.style.transform =
+              'translateY(' + ((1 - p) * 30).toFixed(1) + 'px) scale(' + (.94 + p * .06).toFixed(3) + ')';
+            // blur re-rasterises the word every frame it changes — keep it
+            // on desktop, where there's headroom, and let phones just fade
+            if (!mobile) w.style.filter = 'blur(' + ((1 - p) * 17).toFixed(2) + 'px)';
+          });
         });
-      });
+      }
 
       // temperature: cool night -> faint warmth by the end
-      const total = document.documentElement.scrollHeight - vh;
-      const prog = clamp(sy / total, 0, 1);
-      temp.style.opacity = (prog * .16).toFixed(3);
+      const prog = clamp(sy / docH, 0, 1);
+      setO(temp, (prog * .16).toFixed(3));
 
       // progress beam along the top edge
-      bar.style.transform = 'scaleX(' + prog.toFixed(4) + ')';
+      setT(bar, 'scaleX(' + prog.toFixed(4) + ')');
 
       // the sky descends as the page does: black zenith -> rose -> bronze
-      ramp.style.transform = 'translateY(' + (-prog * (RAMP - 1) * vh).toFixed(1) + 'px)';
-
+      setT(ramp, 'translateY(' + (-prog * (RAMP - 1) * vh).toFixed(1) + 'px)');
 
       raf = null;
+      // keep ticking after the last scroll event until the velocity settles,
+      // or a fling that stops dead leaves the sky frozen mid-smear
+      if (Math.abs(vel) > .35) queue();
     };
     const queue = () => { if (!raf) raf = requestAnimationFrame(apply); };
     addEventListener('scroll', queue, { passive: true });
-    addEventListener('resize', queue, { passive: true });
+    addEventListener('resize', () => { measure(); queue(); }, { passive: true });
     addEventListener('resize', () => {
       document.querySelectorAll('[data-split]').forEach(regradient);
     }, { passive: true });
