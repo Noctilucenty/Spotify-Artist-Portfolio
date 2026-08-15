@@ -353,13 +353,15 @@ radial-gradient(1.1px 1.1px at 2.3% 39.6%, rgba(244,239,230,0.24), transparent),
     background:
       repeating-linear-gradient(96deg,
         rgba(190,179,224,0) 0px,
-        rgba(198,214,236,.17) 34px,
-        rgba(170,190,220,.05) 78px,
-        rgba(226,216,248,.18) 128px,
+        rgba(198,214,236,.30) 34px,
+        rgba(170,190,220,.09) 78px,
+        rgba(226,216,248,.32) 128px,
         rgba(190,179,224,0) 186px),
-      radial-gradient(60% 72% at 40% 6%, rgba(150,178,222,.22) 0%, transparent 68%),
-      radial-gradient(54% 64% at 70% 0%, rgba(186,150,222,.17) 0%, transparent 66%);
-    filter:blur(54px);
+      radial-gradient(60% 72% at 40% 6%, rgba(150,178,222,.34) 0%, transparent 68%),
+      radial-gradient(54% 64% at 70% 0%, rgba(186,150,222,.26) 0%, transparent 66%);
+    /* a tighter blur than the horizon band: here the striations should stay
+       legible as curtain folds rather than melting into a wash */
+    filter:blur(44px);
     mask-image:
       linear-gradient(180deg, #000 0%, #000 44%, transparent 92%),
       linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
@@ -1923,7 +1925,7 @@ radial-gradient(1.1px 1.1px at 2.3% 39.6%, rgba(244,239,230,0.24), transparent),
       // and the constellations draw themselves the first time it is on screen
       const rawSp = (sy - storyTop) / storySpan;
       const bloom = clamp(Math.min((rawSp + .3) / .34, (1.2 - rawSp) / .3), 0, 1);
-      setO(aurora, (bloom * .9).toFixed(3));
+      setO(aurora, bloom.toFixed(3));
       if (bloom > .3) stage.classList.add('lit');
 
       const sp = clamp(rawSp, 0, 1);
